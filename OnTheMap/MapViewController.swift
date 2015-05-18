@@ -1,15 +1,20 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  OnTheMap
 //
 //  Created by Jeffrey Sulton on 5/15/15.
 //  Copyright (c) 2015 notlus. All rights reserved.
 //
 
-import UIKit
+//import UIKit
+import MapKit
 
-class ViewController: UIViewController {
+class MapViewController: UIViewController {
 
+    @IBAction func refresh(sender: AnyObject) {
+        println("refresh")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
