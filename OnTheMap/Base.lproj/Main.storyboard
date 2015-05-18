@@ -169,10 +169,16 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IB5-vE-jsb">
+                                <rect key="frame" x="172" y="382" width="183" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOL-EC-Hg7">
-                                <rect key="frame" x="172" y="377" width="257" height="32"/>
+                                <rect key="frame" x="363" y="377" width="66" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Don't have an account? Sign Up">
+                                <state key="normal" title="Sign Up">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -184,11 +190,13 @@
                             <constraint firstAttribute="centerX" secondItem="Acl-Vr-x2C" secondAttribute="centerX" id="7es-vw-B2R"/>
                             <constraint firstItem="TOL-EC-Hg7" firstAttribute="top" secondItem="CMZ-9d-IJC" secondAttribute="bottom" constant="8" symbolic="YES" id="AJY-mY-sde"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="trailing" secondItem="88L-Fv-lli" secondAttribute="trailing" id="Akq-AG-Yma"/>
+                            <constraint firstItem="TOL-EC-Hg7" firstAttribute="leading" secondItem="IB5-vE-jsb" secondAttribute="trailing" constant="8" symbolic="YES" id="Bc4-mR-ZcM"/>
                             <constraint firstItem="Acl-Vr-x2C" firstAttribute="width" secondItem="CMZ-9d-IJC" secondAttribute="width" id="CeA-EL-0D3"/>
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="leading" secondItem="88L-Fv-lli" secondAttribute="leading" id="F20-La-rIZ"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="centerX" secondItem="24f-HW-VKe" secondAttribute="centerX" id="J7P-0k-pMK"/>
                             <constraint firstItem="TOL-EC-Hg7" firstAttribute="leading" secondItem="CMZ-9d-IJC" secondAttribute="leading" id="WMq-Xw-QEO"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="top" secondItem="eBY-uI-Hkc" secondAttribute="bottom" constant="16" id="bK2-Jp-TR8"/>
+                            <constraint firstItem="IB5-vE-jsb" firstAttribute="leading" secondItem="CMZ-9d-IJC" secondAttribute="leading" id="bZy-oH-iCA"/>
                             <constraint firstItem="TOL-EC-Hg7" firstAttribute="trailing" secondItem="CMZ-9d-IJC" secondAttribute="trailing" id="btx-rX-Phu"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="leading" secondItem="88L-Fv-lli" secondAttribute="leading" id="cCx-Lz-a8V"/>
                             <constraint firstItem="0hc-vT-wTR" firstAttribute="top" secondItem="Imx-Jp-WKz" secondAttribute="bottom" constant="8" symbolic="YES" id="d09-xI-9MR"/>
@@ -197,9 +205,15 @@
                             <constraint firstItem="88L-Fv-lli" firstAttribute="top" secondItem="JSq-dP-3fS" secondAttribute="bottom" constant="8" symbolic="YES" id="kfW-ia-4fU"/>
                             <constraint firstItem="cJ0-KZ-YdS" firstAttribute="top" secondItem="Acl-Vr-x2C" secondAttribute="bottom" constant="20" id="lei-zB-fya"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="centerX" secondItem="0hc-vT-wTR" secondAttribute="centerX" id="nT7-ke-5ZE"/>
+                            <constraint firstItem="IB5-vE-jsb" firstAttribute="baseline" secondItem="TOL-EC-Hg7" secondAttribute="baseline" id="taZ-qy-53E"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="centerX" secondItem="JSq-dP-3fS" secondAttribute="centerX" id="xsl-1e-XKS"/>
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="top" secondItem="88L-Fv-lli" secondAttribute="bottom" constant="8" symbolic="YES" id="zv0-Od-Lmc"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="WMq-Xw-QEO"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <segue destination="KGt-Pz-lFi" kind="show" identifier="OnTheMapHome" id="J5k-hO-FGI"/>
