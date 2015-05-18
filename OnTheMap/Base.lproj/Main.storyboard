@@ -151,7 +151,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="KGt-Pz-lFi" kind="show" id="77U-O6-mIa"/>
+                                    <action selector="login:" destination="ds0-uz-sIU" eventType="touchUpInside" id="sf3-av-bIU"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0hc-vT-wTR">
@@ -216,6 +216,8 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="passwordTextField" destination="88L-Fv-lli" id="S7s-cT-dUf"/>
+                        <outlet property="usernameTextField" destination="JSq-dP-3fS" id="i0m-sL-qXa"/>
                         <segue destination="KGt-Pz-lFi" kind="show" identifier="OnTheMapHome" id="J5k-hO-FGI"/>
                     </connections>
                 </viewController>
@@ -281,7 +283,4 @@
             <point key="canvasLocation" x="218" y="785"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="J5k-hO-FGI"/>
-    </inferredMetricsTieBreakers>
 </document>
