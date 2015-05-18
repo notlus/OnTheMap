@@ -11,20 +11,27 @@ import MapKit
 
 class MapViewController: UIViewController {
 
-    @IBAction func refresh(sender: AnyObject) {
-        println("refresh")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
+
+        // Create the pin button
+        let postPinButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "postPin")
+        var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
+        rightButtons.append(postPinButton)
+        navigationItem.rightBarButtonItems = rightButtons
+}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func refresh(sender: AnyObject) {
+        println("refresh")
+    }
 
+    // TODO: This should be shared between this view controller and the table view controller
+    func postPin() -> Void {
+        println("postPin")
+    }
 }
 
