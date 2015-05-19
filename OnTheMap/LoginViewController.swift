@@ -34,10 +34,15 @@ class LoginViewController: UIViewController {
             udacityClient?.loginWithUser(usernameTextField.text, password: passwordTextField.text, completion: { (success) -> Void in
                 if success {
                     println("Logged in successfully")
-                    self.performSegueWithIdentifier("OnTheMapHome", sender: self)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.performSegueWithIdentifier("OnTheMapHome", sender: self)
+                    })
                 }
                 else {
                     println("Failed to log in")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.handleInvalidLogin()
+                    })
                 }
             })
         }
