@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 notlus. All rights reserved.
 //
 
-//import UIKit
 import MapKit
 
 class MapViewController: UIViewController {
