@@ -82,15 +82,15 @@ extension UdacityClient {
 
     struct Constants {
         static let BaseURL = "https://www.udacity.com/api/session"
-        static let SignUpURL = "https://www.udacity.com/account/auth#!/signup"
+        static let SignupURL = "https://www.udacity.com/account/auth#!/signup"
     }
     
     struct BodyKeys {
         static let Root = "udacity"
         static let Username = "username"
         static let Password = "password"
-        // = "{\"udacity\": {\"username\": \"account@domain.com\", \"password\": \"********\"}}".dataUsingEncoding(NSUTF8StringEncoding)
     }
+    
     struct ResponseKeys {
         static let Session = "session"
         static let SessionID = "id"

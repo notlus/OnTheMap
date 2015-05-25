@@ -41,7 +41,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     @IBAction func handleSingleTap(sender: AnyObject) {
         println("handleSingleTap")
@@ -84,7 +83,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signUp() {
         println("signUp")
-        if !UIApplication.sharedApplication().openURL(NSURL(string: UdacityClient.Constants.SignUpURL)!) {
+        if !UIApplication.sharedApplication().openURL(NSURL(string: UdacityClient.Constants.SignupURL)!) {
             println("Failed to open URL")
         }
     }
@@ -108,12 +107,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func subscribeToKeyboardNotifications() -> Void {
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     private func unsubscribeFromKeyboardNotifications() -> Void {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillShowNotification)
+        NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillHideNotification)
     }
 
     // MARK: Keyboard notification handlers
@@ -124,6 +124,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     func keyboardWillHide(notification: NSNotification) -> Void {
         println("keyboardWillHide")
+    }
+    
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let value = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return value.CGRectValue().size.height
     }
     
     // MARK: - Navigation
