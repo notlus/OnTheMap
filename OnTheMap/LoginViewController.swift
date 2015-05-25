@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Outlets
     @IBOutlet weak var usernameTextField: UITextField!
@@ -20,14 +20,34 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         udacityClient = UdacityClient()
+        
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsubscribeFromKeyboardNotifications()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 
+    @IBAction func handleSingleTap(sender: AnyObject) {
+        println("handleSingleTap")
+        view.endEditing(true)
+    }
+    
     @IBAction func login(sender: AnyObject) {
         println("login")
         if !usernameTextField.text.isEmpty && !passwordTextField.text.isEmpty {
@@ -54,6 +74,19 @@ class LoginViewController: UIViewController {
 
     @IBAction func logout(unwindSegue: UIStoryboardSegue) {
         println("logout")
+        
+        // Clear the session ID
+        udacityClient?.sessionID = nil
+        
+        usernameTextField.text = ""
+        passwordTextField.text = ""
+    }
+    
+    @IBAction func signUp() {
+        println("signUp")
+        if !UIApplication.sharedApplication().openURL(NSURL(string: UdacityClient.Constants.SignUpURL)!) {
+            println("Failed to open URL")
+        }
     }
     
     func handleInvalidLogin() -> Void {
@@ -74,6 +107,25 @@ class LoginViewController: UIViewController {
         presentViewController(alert, animated: true, completion: nil)
     }
 
+    private func subscribeToKeyboardNotifications() -> Void {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+    }
+    
+    private func unsubscribeFromKeyboardNotifications() -> Void {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+
+    // MARK: Keyboard notification handlers
+    
+    func keyboardWillShow(notification: NSNotification) -> Void {
+        println("keyboardWillShow")
+    }
+
+    func keyboardWillHide(notification: NSNotification) -> Void {
+        println("keyboardWillHide")
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -84,5 +136,11 @@ class LoginViewController: UIViewController {
         }
         
         // Pass the selected object to the new view controller.
+    }
+    
+    // MARK: - UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
