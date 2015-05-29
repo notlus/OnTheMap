@@ -74,11 +74,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func logout(unwindSegue: UIStoryboardSegue) {
         println("logout")
         
-        // Clear the session ID
-        udacityClient?.sessionID = nil
-        
-        usernameTextField.text = ""
-        passwordTextField.text = ""
+        udacityClient!.logout { (success) -> Void in
+            if success {
+                // Clear the session ID
+                self.udacityClient?.sessionID = nil
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.usernameTextField.text = ""
+                    self.passwordTextField.text = ""
+                })
+            }
+        }
     }
     
     @IBAction func signUp() {
