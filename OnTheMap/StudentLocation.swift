@@ -8,15 +8,16 @@
 
 import Foundation
 
+/// Represents the location information for a student
 struct StudentLocation {
     var firstName: String
     var lastName: String
     var mapString: String
     var mediaURL: String
-    var latitude: Float
-    var longitude: Float
+    var latitude: Double
+    var longitude: Double
     
-    init(firstName: String, lastName:String, mapString: String, mediaURL: String, latitude: Float, longitude: Float) {
+    init(firstName: String, lastName:String, mapString: String, mediaURL: String, latitude: Double, longitude: Double) {
         self.firstName = firstName
         self.lastName = lastName
         self.mapString = mapString
