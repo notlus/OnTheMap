@@ -18,20 +18,31 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let stlClient = StudentLocationClient()
+        stlClient.getStudentLocations { (locations) -> Void in
+            println("Student location completion handler")
+            if locations.isEmpty {
+                println("No student locations")
+            }
+            else {
+                self.addAnnotations(locations)
+            }
+        }
+        
         // Create the pin button
         let postPinButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "postPin")
         var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
         rightButtons.append(postPinButton)
         navigationItem.rightBarButtonItems = rightButtons
 
-        let student = StudentLocation(firstName: "Jeffrey", lastName: "Sulton", mapString: "Map String", mediaURL: "https://apple.com", latitude: 34.05, longitude: -118.25)
-        let annotation = MKPointAnnotation()
-        annotation.title = student.mapString
-        annotation.subtitle = "https://"
-        let coord = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
-        annotation.coordinate = coord
-//        let mapPoint = MKMapPointForCoordinate(coord)
-        mapView.addAnnotation(annotation)
+//        let student = StudentInformation(createdAt: "aaa", firstName: "Jeffrey", lastName: "Sulton", latitude: "34.05", longitude: "-118.25",
+//            mapString: "Map String", mediaURL: "https://apple.com", objectID: "aa", uniqueKey: "aa", updatedAt: "aa")
+//        let annotation = MKPointAnnotation()
+//        annotation.title = student.mapString
+//        annotation.subtitle = "https://"
+//        let coord = CLLocationCoordinate2D(latitude: NSNumberFormatter().numberFromString(student.latitude)!.doubleValue, longitude: NSNumberFormatter().numberFromString(student.longitude)!.doubleValue)
+//        annotation.coordinate = coord
+//        mapView.addAnnotation(annotation)
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,6 +53,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         println("refresh")
     }
 
+    private func addAnnotations(students: [StudentInformation]) -> Void {
+        for student in students {
+            let annotation = MKPointAnnotation()
+            annotation.title = student.mapString
+            annotation.subtitle = student.mediaURL
+            let coord = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
+            annotation.coordinate = coord
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.mapView.addAnnotation(annotation)
+            })
+        }
+    }
+    
     // TODO: This should be shared between this view controller and the table view controller
     func postPin() -> Void {
         println("postPin")
@@ -74,9 +98,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     private func validateURL(url: NSURL) -> Bool {
         if let scheme = url.scheme {
-            let t = scheme as NSString
-            if t.substringToIndex(4) != "http" || url.host == nil {
-                println("Unsupported URL scheme: \(scheme)")
+            if (scheme as NSString).substringToIndex(4) != "http" || url.host == nil {
+                println("Invalid URL: \(scheme)")
                 return false
             }
         }
