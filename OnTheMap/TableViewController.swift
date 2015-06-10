@@ -10,8 +10,11 @@ import UIKit
 
 class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
     @IBAction func refresh(sender: AnyObject) {
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,21 +35,30 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return appDelegate.studentLocations.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("mapCell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
+        let studentLocation = appDelegate.studentLocations[indexPath.row]
+        cell.textLabel?.text = studentLocation.mapString
+        cell.detailTextLabel?.text = studentLocation.mediaURL
 
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let studentLocation = appDelegate.studentLocations[indexPath.row]
+        if let url = NSURL(string: studentLocation.mediaURL) {
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
 
     /*

@@ -25,7 +25,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 println("No student locations")
             }
             else {
-                self.addAnnotations(locations)
+                // Save the location data
+                self.appDelegate.studentLocations = locations
+                
+                // Update the map
+                self.addAnnotations()
             }
         }
         
@@ -34,15 +38,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
         rightButtons.append(postPinButton)
         navigationItem.rightBarButtonItems = rightButtons
-
-//        let student = StudentInformation(createdAt: "aaa", firstName: "Jeffrey", lastName: "Sulton", latitude: "34.05", longitude: "-118.25",
-//            mapString: "Map String", mediaURL: "https://apple.com", objectID: "aa", uniqueKey: "aa", updatedAt: "aa")
-//        let annotation = MKPointAnnotation()
-//        annotation.title = student.mapString
-//        annotation.subtitle = "https://"
-//        let coord = CLLocationCoordinate2D(latitude: NSNumberFormatter().numberFromString(student.latitude)!.doubleValue, longitude: NSNumberFormatter().numberFromString(student.longitude)!.doubleValue)
-//        annotation.coordinate = coord
-//        mapView.addAnnotation(annotation)
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,13 +48,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         println("refresh")
     }
 
-    private func addAnnotations(students: [StudentInformation]) -> Void {
-        for student in students {
+    private func addAnnotations() -> Void {
+        for student in appDelegate.studentLocations {
             let annotation = MKPointAnnotation()
             annotation.title = student.mapString
             annotation.subtitle = student.mediaURL
-            let coord = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
-            annotation.coordinate = coord
+            annotation.coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
+            
+            // Add the annotation on the main queue
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.mapView.addAnnotation(annotation)
             })
