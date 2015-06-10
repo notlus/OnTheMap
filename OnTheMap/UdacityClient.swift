@@ -117,6 +117,7 @@ extension UdacityClient {
     struct Constants {
         static let BaseURL = "https://www.udacity.com/api/session"
         static let SignupURL = "https://www.udacity.com/account/auth#!/signup"
+        static let FacebookAPPID = "365362206864879"
     }
     
     struct BodyKeys {
