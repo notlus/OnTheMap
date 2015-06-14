@@ -18,11 +18,23 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Create the pin button
+        let buttonImage = UIImage(named: "pin")!
+        let postPinButton = UIBarButtonItem(image: buttonImage, landscapeImagePhone: buttonImage, style: UIBarButtonItemStyle.Plain, target: self, action: "postPin")
+        var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
+        rightButtons.append(postPinButton)
+        navigationItem.rightBarButtonItems = rightButtons
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+
+    func postPin() -> Void {
+        println("postPin")
+        performSegueWithIdentifier("ShowPostingView", sender: self)
     }
 
     override func didReceiveMemoryWarning() {

@@ -34,7 +34,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         // Create the pin button
-        let postPinButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "postPin")
+        let buttonImage = UIImage(named: "pin")!
+        let postPinButton = UIBarButtonItem(image: buttonImage, landscapeImagePhone: buttonImage, style: UIBarButtonItemStyle.Plain, target: self, action: "postPin")
         var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
         rightButtons.append(postPinButton)
         navigationItem.rightBarButtonItems = rightButtons
@@ -65,6 +66,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // TODO: This should be shared between this view controller and the table view controller
     func postPin() -> Void {
         println("postPin")
+        performSegueWithIdentifier("ShowPostingView", sender: self)
     }
     
     // MARK: MKMapViewDelegate

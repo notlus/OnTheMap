@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ds0-uz-sIU">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--TableViewController-->
@@ -68,11 +69,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="dua-eP-DIf" kind="presentation" identifier="ShowPostingView" id="pOM-nK-QYG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ai6-Hx-lDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5jz-76-fpU" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1030" y="785"/>
+            <point key="canvasLocation" x="944" y="785"/>
         </scene>
         <!--MapViewController-->
         <scene sceneID="zUD-5l-4f9">
@@ -115,12 +119,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="tKV-wU-kI2" id="k6p-IC-tOO"/>
+                        <segue destination="dua-eP-DIf" kind="presentation" identifier="ShowPostingView" id="KC4-hX-raR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rXV-0j-jos" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="aSg-nu-qRP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1030" y="123"/>
+            <point key="canvasLocation" x="944" y="123"/>
         </scene>
         <!--Info Posting View Controller-->
         <scene sceneID="Ev3-pY-6RL">
@@ -134,30 +139,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ1-5R-COS">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ1-5R-COS">
                                 <rect key="frame" x="244" y="521" width="113" height="30"/>
                                 <state key="normal" title="Find on the Map">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Where are you studying today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDT-Tg-wlE">
-                                <rect key="frame" x="190" y="28" width="220" height="166"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where are you studying today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDT-Tg-wlE">
+                                <rect key="frame" x="190" y="84" width="220" height="166"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="220" id="pag-hJ-7PX"/>
+                                    <constraint firstAttribute="height" constant="166" id="poL-md-CUY"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="37"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter location" borderStyle="roundedRect" placeholder="Enter description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o2H-pc-x7i">
-                                <rect key="frame" x="16" y="217" width="568" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heb-74-j8C">
+                                <rect key="frame" x="538" y="28" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dismiss:" destination="dua-eP-DIf" eventType="touchUpInside" id="3V4-3u-6uo"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter location" borderStyle="roundedRect" placeholder="Enter description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o2H-pc-x7i">
+                                <rect key="frame" x="16" y="273" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="heb-74-j8C" firstAttribute="top" secondItem="Xoq-L4-Bfj" secondAttribute="bottom" constant="8" symbolic="YES" id="G5K-6h-xwu"/>
+                            <constraint firstItem="kDT-Tg-wlE" firstAttribute="top" secondItem="Xoq-L4-Bfj" secondAttribute="bottom" constant="64" id="Hef-9o-XkQ"/>
+                            <constraint firstItem="kDT-Tg-wlE" firstAttribute="centerX" secondItem="PZk-gg-E3s" secondAttribute="centerX" id="MjD-Fn-azo"/>
+                            <constraint firstItem="IBT-2a-g4Q" firstAttribute="top" secondItem="dJ1-5R-COS" secondAttribute="bottom" constant="49" id="NvS-kR-3ww"/>
+                            <constraint firstItem="o2H-pc-x7i" firstAttribute="leading" secondItem="PZk-gg-E3s" secondAttribute="leadingMargin" id="OCQ-EG-lqN"/>
+                            <constraint firstItem="dJ1-5R-COS" firstAttribute="centerX" secondItem="o2H-pc-x7i" secondAttribute="centerX" id="PDj-Gn-UG5"/>
+                            <constraint firstItem="o2H-pc-x7i" firstAttribute="centerX" secondItem="kDT-Tg-wlE" secondAttribute="centerX" id="QU7-9D-qzC"/>
+                            <constraint firstItem="o2H-pc-x7i" firstAttribute="top" secondItem="kDT-Tg-wlE" secondAttribute="bottom" constant="23" id="ihX-mg-2QQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="heb-74-j8C" secondAttribute="trailing" constant="-2" id="mDI-U5-W2m"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oxv-7g-kft" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="218" y="-538"/>
+            <point key="canvasLocation" x="1798" y="426"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="jzC-Y4-iBM">
@@ -355,4 +384,7 @@
         <image name="map" width="32" height="32"/>
         <image name="udacity_logo" width="492" height="492"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="KC4-hX-raR"/>
+    </inferredMetricsTieBreakers>
 </document>
