@@ -122,10 +122,10 @@
             </objects>
             <point key="canvasLocation" x="1030" y="123"/>
         </scene>
-        <!--View Controller-->
+        <!--Info Posting View Controller-->
         <scene sceneID="Ev3-pY-6RL">
             <objects>
-                <viewController id="dua-eP-DIf" sceneMemberID="viewController">
+                <viewController id="dua-eP-DIf" customClass="InfoPostingViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Xoq-L4-Bfj"/>
                         <viewControllerLayoutGuide type="bottom" id="IBT-2a-g4Q"/>
@@ -133,6 +133,25 @@
                     <view key="view" contentMode="scaleToFill" id="PZk-gg-E3s">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ1-5R-COS">
+                                <rect key="frame" x="244" y="521" width="113" height="30"/>
+                                <state key="normal" title="Find on the Map">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Where are you studying today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDT-Tg-wlE">
+                                <rect key="frame" x="190" y="28" width="220" height="166"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="37"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter location" borderStyle="roundedRect" placeholder="Enter description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o2H-pc-x7i">
+                                <rect key="frame" x="16" y="217" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -296,7 +315,7 @@
         <scene sceneID="BQ1-gi-lKe">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aGd-Xb-GnY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" id="VEN-TO-EhQ"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" id="VEN-TO-EhQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahd-zT-UfF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -315,7 +334,7 @@
         <scene sceneID="1As-qM-qJ4">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MNp-dO-0pn" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="List" id="Jxl-o0-U7T"/>
+                    <tabBarItem key="tabBarItem" title="List" image="list" id="Jxl-o0-U7T"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1XN-dg-2V2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -332,6 +351,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="list" width="32" height="32"/>
+        <image name="map" width="32" height="32"/>
         <image name="udacity_logo" width="492" height="492"/>
     </resources>
 </document>
