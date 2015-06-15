@@ -139,12 +139,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ1-5R-COS">
-                                <rect key="frame" x="244" y="521" width="113" height="30"/>
-                                <state key="normal" title="Find on the Map">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where are you studying today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDT-Tg-wlE">
                                 <rect key="frame" x="190" y="84" width="220" height="166"/>
                                 <constraints>
@@ -164,25 +158,63 @@
                                     <action selector="dismiss:" destination="dua-eP-DIf" eventType="touchUpInside" id="3V4-3u-6uo"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter location" borderStyle="roundedRect" placeholder="Enter description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o2H-pc-x7i">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter location" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o2H-pc-x7i">
                                 <rect key="frame" x="16" y="273" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ1-5R-COS">
+                                <rect key="frame" x="244" y="521" width="113" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Find on the Map">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="findOnMap:" destination="dua-eP-DIf" eventType="touchUpInside" id="SSy-Ka-bUn"/>
+                                </connections>
+                            </button>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter URL" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ys9-cz-hYP">
+                                <rect key="frame" x="16" y="58" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zuR-iM-Fq5">
+                                <rect key="frame" x="0.0" y="103" width="600" height="497"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="heb-74-j8C" firstAttribute="top" secondItem="Xoq-L4-Bfj" secondAttribute="bottom" constant="8" symbolic="YES" id="G5K-6h-xwu"/>
+                            <constraint firstItem="zuR-iM-Fq5" firstAttribute="top" secondItem="o2H-pc-x7i" secondAttribute="top" constant="-170" id="Gu8-c1-R6C"/>
                             <constraint firstItem="kDT-Tg-wlE" firstAttribute="top" secondItem="Xoq-L4-Bfj" secondAttribute="bottom" constant="64" id="Hef-9o-XkQ"/>
+                            <constraint firstItem="zuR-iM-Fq5" firstAttribute="bottom" secondItem="IBT-2a-g4Q" secondAttribute="top" id="Jtr-7e-CEw"/>
                             <constraint firstItem="kDT-Tg-wlE" firstAttribute="centerX" secondItem="PZk-gg-E3s" secondAttribute="centerX" id="MjD-Fn-azo"/>
                             <constraint firstItem="IBT-2a-g4Q" firstAttribute="top" secondItem="dJ1-5R-COS" secondAttribute="bottom" constant="49" id="NvS-kR-3ww"/>
                             <constraint firstItem="o2H-pc-x7i" firstAttribute="leading" secondItem="PZk-gg-E3s" secondAttribute="leadingMargin" id="OCQ-EG-lqN"/>
                             <constraint firstItem="dJ1-5R-COS" firstAttribute="centerX" secondItem="o2H-pc-x7i" secondAttribute="centerX" id="PDj-Gn-UG5"/>
                             <constraint firstItem="o2H-pc-x7i" firstAttribute="centerX" secondItem="kDT-Tg-wlE" secondAttribute="centerX" id="QU7-9D-qzC"/>
+                            <constraint firstItem="Ys9-cz-hYP" firstAttribute="top" secondItem="heb-74-j8C" secondAttribute="bottom" id="Ws3-53-zRL"/>
+                            <constraint firstItem="Ys9-cz-hYP" firstAttribute="trailing" secondItem="o2H-pc-x7i" secondAttribute="trailing" id="iTO-sJ-DWp"/>
                             <constraint firstItem="o2H-pc-x7i" firstAttribute="top" secondItem="kDT-Tg-wlE" secondAttribute="bottom" constant="23" id="ihX-mg-2QQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zuR-iM-Fq5" secondAttribute="trailing" constant="-16" id="jLq-ZH-OXw"/>
+                            <constraint firstItem="zuR-iM-Fq5" firstAttribute="leading" secondItem="PZk-gg-E3s" secondAttribute="leading" id="lV1-zn-lna"/>
                             <constraint firstAttribute="trailingMargin" secondItem="heb-74-j8C" secondAttribute="trailing" constant="-2" id="mDI-U5-W2m"/>
+                            <constraint firstItem="zuR-iM-Fq5" firstAttribute="trailing" secondItem="heb-74-j8C" secondAttribute="trailing" id="xYf-16-eec"/>
+                            <constraint firstItem="Ys9-cz-hYP" firstAttribute="leading" secondItem="o2H-pc-x7i" secondAttribute="leading" id="zbd-s2-g1A"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="xYf-16-eec"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="findOrSubmit" destination="dJ1-5R-COS" id="o88-zU-Dao"/>
+                        <outlet property="mapView" destination="zuR-iM-Fq5" id="gdn-vr-eMg"/>
+                        <outlet property="promptLabel" destination="kDT-Tg-wlE" id="Qg2-OQ-GKL"/>
+                        <outlet property="searchField" destination="o2H-pc-x7i" id="80I-ul-NLR"/>
+                        <outlet property="urlTextField" destination="Ys9-cz-hYP" id="J9k-Si-cDg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oxv-7g-kft" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
