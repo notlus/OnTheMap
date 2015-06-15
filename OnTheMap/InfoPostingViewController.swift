@@ -75,8 +75,14 @@ class InfoPostingViewController: UIViewController {
             
             if !urlTextField.text.isEmpty, let urlToPost = urlTextField.text {
                 println("url to post: \(urlToPost)")
+                if let url = validateURL(urlToPost) {
+                    
+                } else {
+                    let alert = UIAlertView(title: "Error", message: "Invalid URL", delegate: nil, cancelButtonTitle: "Ok")
+                    alert.show()
+                }
             } else {
-                let alert = UIAlertView(title: "Error", message: "Invalid URL", delegate: nil, cancelButtonTitle: "Ok")
+                let alert = UIAlertView(title: "Error", message: "Missing URL", delegate: nil, cancelButtonTitle: "Ok")
                 alert.show()
             }
         } else {

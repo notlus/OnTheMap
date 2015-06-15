@@ -52,7 +52,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     private func addAnnotations() -> Void {
         for student in appDelegate.studentLocations {
             let annotation = MKPointAnnotation()
-            annotation.title = student.mapString
+            annotation.title = "\(student.firstName) \(student.lastName)"
             annotation.subtitle = student.mediaURL
             annotation.coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
             
@@ -82,26 +82,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         println("calloutAccessoryControlTapped")
-        if let urlString = view.annotation.subtitle,
-            let studentURL = NSURL(string: urlString) {
-                if validateURL(studentURL) {
-                    UIApplication.sharedApplication().openURL(studentURL)
-                }
-                else {
-                    let alertView = UIAlertView(title: "Invalid URL", message: "Invalid URL: \(urlString)", delegate: nil, cancelButtonTitle: "OK")
-                    alertView.show()
-                }
-        }
-    }
-    
-    private func validateURL(url: NSURL) -> Bool {
-        if let scheme = url.scheme {
-            if (scheme as NSString).substringToIndex(4) != "http" || url.host == nil {
-                println("Invalid URL: \(scheme)")
-                return false
+        if let urlString = view.annotation.subtitle {
+            if let url = validateURL(urlString) {
+                UIApplication.sharedApplication().openURL(url)
+            }
+            else {
+                let alertView = UIAlertView(title: "Invalid URL", message: "Invalid URL: \(urlString)", delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
             }
         }
-        
-        return true
     }
 }
