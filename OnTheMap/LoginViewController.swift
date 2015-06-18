@@ -10,6 +10,8 @@ import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
     // MARK: Outlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -50,9 +52,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func login(sender: AnyObject) {
         println("login")
         if !usernameTextField.text.isEmpty && !passwordTextField.text.isEmpty {
-            udacityClient?.loginWithUser(usernameTextField.text, password: passwordTextField.text, completion: { (success) -> Void in
+            udacityClient?.loginWithUser(usernameTextField.text, password: passwordTextField.text, completion: { (success, userID) -> Void in
                 if success {
-                    println("Logged in successfully")
+                    println("Logged in successfully with user ID \(userID!)")
+                    self.appDelegate.userID = userID
+                    
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.performSegueWithIdentifier("OnTheMapHome", sender: self)
                     })
