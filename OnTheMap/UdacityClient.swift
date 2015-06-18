@@ -20,9 +20,9 @@ class UdacityClient: NSObject {
         super.init()
     }
     
-    func loginWithUser(username: String, password: String, completion: (Bool) -> Void) -> Void {
+    func loginWithUser(username: String, password: String, completion: (Bool, String?) -> Void) -> Void {
         // Create the request
-        let request = NSMutableURLRequest(URL: NSURL(string: Constants.BaseURL)!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "\(Constants.BaseURL)/session")!)
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -37,9 +37,11 @@ class UdacityClient: NSObject {
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(requestBody, options: nil, error: nil)
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
+            var userID: String? = nil
+            
             if let error = error {
                 println("Request failed, error: \(error)")
-                completion(false)
+                completion(false, userID)
             }
             else {
                 // Default success to false
@@ -51,6 +53,13 @@ class UdacityClient: NSObject {
                         if let sessionID = session[ResponseKeys.SessionID] as? String {
                             self.sessionID = sessionID
                             success = true
+                            
+                            // Get the key (user ID) for the logged in user
+                            if let account = parsedResult[ResponseKeys.Account] as? [String: AnyObject],
+                                let key = account[ResponseKeys.Key] as? String {
+                                println("Got user key (ID): \(key)")
+                                userID = key
+                            }
                         }
                         else {
                             success = false
@@ -70,7 +79,7 @@ class UdacityClient: NSObject {
                 }
                 
                 // Call the completion handler
-                completion(success)
+                completion(success, userID)
             }
         })
         
@@ -79,7 +88,7 @@ class UdacityClient: NSObject {
     
     func logout(completion: (Bool) -> Void) {
         // Create the request
-        let request = NSMutableURLRequest(URL: NSURL(string: Constants.BaseURL)!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "\(Constants.BaseURL)/session")!)
         request.HTTPMethod = "DELETE"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -110,14 +119,45 @@ class UdacityClient: NSObject {
         
         task.resume()
     }
+    
+    func getUserData(userID: String, completion: ([String: AnyObject]?) -> Void) {
+        let request = NSMutableURLRequest(URL: NSURL(string: "\(Constants.BaseURL)/users/\(userID)")!)
+        request.HTTPMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
+            var userData: [String: AnyObject]? = nil
+            
+            if let error = error {
+                println("Failed to get user data, error=\(error)")
+            } else {
+                println("Got user data successfully")
+                let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+                
+                var parseError: NSError? = nil
+                if let parsedResult = NSJSONSerialization.JSONObjectWithData(newData,
+                        options: NSJSONReadingOptions.AllowFragments,
+                        error: &parseError) as? [String: AnyObject] {
+//                            println("parsedResult: \(parsedResult)")
+                            userData = parsedResult["user"] as? [String: AnyObject]
+                }
+            }
+            
+            completion(userData)
+        })
+        
+        task.resume()
+    }
 }
 
 extension UdacityClient {
 
     struct Constants {
-        static let BaseURL = "https://www.udacity.com/api/session"
+        static let BaseURL = "https://www.udacity.com/api"
         static let SignupURL = "https://www.udacity.com/account/auth#!/signup"
-        static let FacebookAPPID = "365362206864879"
+        static let UserDataURL = "https://www.udacity.com/api/users"
+        static let FacebookAppID = "365362206864879"
     }
     
     struct BodyKeys {
@@ -128,6 +168,8 @@ extension UdacityClient {
     
     struct ResponseKeys {
         static let Session = "session"
+        static let Account = "account"
+        static let Key = "key"
         static let SessionID = "id"
         static let Status = "status"
         static let Error = "error"
