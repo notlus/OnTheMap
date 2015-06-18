@@ -18,20 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let stlClient = StudentLocationClient()
-        stlClient.getStudentLocations { (locations) -> Void in
-            println("Student location completion handler")
-            if locations.isEmpty {
-                println("No student locations")
-            }
-            else {
-                // Save the location data
-                self.appDelegate.studentLocations = locations
-                
-                // Update the map
-                self.addAnnotations()
-            }
-        }
+        loadStudents()
         
         // Create the pin button
         let buttonImage = UIImage(named: "pin")!
@@ -47,8 +34,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBAction func refresh(sender: AnyObject) {
         println("refresh")
+        loadStudents()
     }
 
+    private func loadStudents() {
+        let stlClient = StudentLocationClient()
+        stlClient.getStudentLocations { (studentLocations) -> Void in
+            println("Student location completion handler")
+            if let locations = studentLocations {
+                // Save the location data
+                self.appDelegate.studentLocations = locations
+                
+                self.addAnnotations()
+            } else {
+                println("No student locations")
+                let alert = UIAlertView(title: "Error", message: "Unable to download student locations", delegate: nil, cancelButtonTitle: "Ok")
+                alert.show()
+            }
+        }
+    }
+    
     private func addAnnotations() -> Void {
         for student in appDelegate.studentLocations {
             let annotation = MKPointAnnotation()
@@ -58,6 +63,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             // Add the annotation on the main queue
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                // Remove existing annotations
+                self.mapView.removeAnnotations(self.mapView.annotations)
+
                 self.mapView.addAnnotation(annotation)
             })
         }
