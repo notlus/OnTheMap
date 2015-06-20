@@ -106,13 +106,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             println("Ok action taken")
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            println("Cancel action taken")
-        })
-        
         alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        
         presentViewController(alert, animated: true, completion: nil)
     }
 
