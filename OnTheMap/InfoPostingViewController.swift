@@ -10,14 +10,17 @@ import UIKit
 import MapKit
 
 class InfoPostingViewController: UIViewController {
-    private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    
+
+    // MARK: Outlets
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var searchField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var findOrSubmit: UIButton!
     @IBOutlet weak var urlTextField: UITextField!
     
+    var mapDelegate: UpdateStudentMap?
+    
+    private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     private enum PostingState {
         // Show UI for finding a location
         case FindLocation
@@ -48,6 +51,7 @@ class InfoPostingViewController: UIViewController {
                         self.searchField.hidden = false
                         // Show the alert on the main queue
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            // TODO: Use UIAlertController
                             let alert = UIAlertView(title: "Search Error", message: error.description, delegate: nil, cancelButtonTitle: "Ok")
                             alert.show()
                         })
@@ -74,6 +78,7 @@ class InfoPostingViewController: UIViewController {
                 })
             }
             else {
+                // TODO: Use UIAlertController
                 let alert = UIAlertView(title: "Error", message: "Invalid search request", delegate: nil, cancelButtonTitle: "Ok")
                 alert.show()
             }
@@ -90,32 +95,39 @@ class InfoPostingViewController: UIViewController {
                     udacityClient.getUserData(appDelegate.userID!, completion: { (userData) -> Void in
                         if let userData = userData {
                             println("Got user data: \(userData)")
-                            
-                            var si1 = [String: AnyObject]()
-                            si1["firstName"] = userData["first_name"]
-                            si1["lastName"] = userData["last_name"]
-                            si1["latitude"] = self.postLocation?.coordinate.latitude ?? 0
-                            si1["longitude"] = self.postLocation?.coordinate.longitude ?? 0
-                            si1["mediaURL"] = urlToPost
-                            si1["mapString"] = self.searchField.text
-                            si1["uniqueKey"] = "1234"
-                            
-                            let si = StudentInformation(studentInfo: si1)
+
+                            // Create a dictionary containing the new user data
+                            var studentInfo = [String: AnyObject]()
+                            // TODO: Create constants for the keys
+                            studentInfo["uniqueKey"] = "\(self.appDelegate.userID)"
+                            studentInfo["firstName"] = userData["first_name"]
+                            studentInfo["lastName"] = userData["last_name"]
+                            studentInfo["latitude"] = self.postLocation?.coordinate.latitude ?? 0
+                            studentInfo["longitude"] = self.postLocation?.coordinate.longitude ?? 0
+                            studentInfo["mediaURL"] = urlToPost
+                            studentInfo["mapString"] = self.searchField.text
                             
                             // Post a new location to the Parse API
+                            // TODO: Can this be a static method
                             let parseAPI = StudentLocationClient()
-                            
-                            parseAPI.postStudentLocation(si) { (success) -> Void in
+                            parseAPI.postStudentLocation(studentInfo) { (success, studentInformation) -> Void in
                                 println("Posting complete, success=\(success)")
+                                if let si = studentInformation {
+                                    // Call the delegate to update the map
+                                    self.mapDelegate?.addToMap(si)
+                                }
+                                
                                 self.dismissViewControllerAnimated(true, completion: nil)
                             }
                         }
                     })
                 } else {
+                    // TODO: Use UIAlertController
                     let alert = UIAlertView(title: "Error", message: "Invalid URL", delegate: nil, cancelButtonTitle: "Ok")
                     alert.show()
                 }
             } else {
+                // TODO: Use UIAlertController
                 let alert = UIAlertView(title: "Error", message: "Missing URL", delegate: nil, cancelButtonTitle: "Ok")
                 alert.show()
             }
@@ -138,7 +150,6 @@ class InfoPostingViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

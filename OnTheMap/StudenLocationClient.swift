@@ -56,7 +56,7 @@ class StudentLocationClient: NSObject {
         task.resume()
     }
     
-    func postStudentLocation(studentLocation: StudentInformation, completion: (Bool) -> Void) -> Bool {
+    func postStudentLocation(studentLocation: [String: AnyObject], completion: (Bool, StudentInformation?) -> Void) -> Bool {
         let urlString = "\(Constants.BaseURL)"
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         request.HTTPMethod = "POST"
@@ -67,25 +67,39 @@ class StudentLocationClient: NSObject {
         request.addValue("application/json", forHTTPHeaderField: "content-type")
         
         // Add body data
-        // TODO: Build the body JSON data
-        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+        var error: NSError?
+        let jsonData = NSJSONSerialization.dataWithJSONObject(studentLocation as [String: AnyObject], options: NSJSONWritingOptions.PrettyPrinted, error: &error)
+        
+        // TODO: Remove after testing
+        let jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding)
+        println("JSON data to post is \(jsonString)")
+        
+        request.HTTPBody = jsonData
         
         // Create the task
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
-            println("Inside POST request")
-            
             var success = false
+            var siResult: StudentInformation? = nil
             
             if let postError = error {
                 println("Error posting data")
                 success = false
             } else {
                 println("Posted data successfully")
+                var err: NSError?
+                let parsedResult = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: &err) as! [String: AnyObject]
+                var si = studentLocation
+                si["objectId"] = parsedResult["objectId"]
+                si["createdAt"] = parsedResult["createdAt"]
+                
+                // Create new `StudentInformation` instance
+                siResult = StudentInformation(studentInfo: si)
                 success = true
             }
 
             // Always call the completion handler
-            completion(success)
+            // TODO: Since siResult is an optional, don't really need success
+            completion(success, siResult)
         })
         
         task.resume()
