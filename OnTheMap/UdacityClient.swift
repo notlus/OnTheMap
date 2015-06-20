@@ -70,7 +70,7 @@ class UdacityClient: NSObject {
                         let status = parsedResult[ResponseKeys.Status] as! Int
                         success = false
                         let errorString = parsedResult[ResponseKeys.Error] as! String
-                        println("Error is \(errorString)")
+                        println("Error: '\(errorString)'")
                     }
                 }
                 else {
@@ -139,7 +139,6 @@ class UdacityClient: NSObject {
                 if let parsedResult = NSJSONSerialization.JSONObjectWithData(newData,
                         options: NSJSONReadingOptions.AllowFragments,
                         error: &parseError) as? [String: AnyObject] {
-//                            println("parsedResult: \(parsedResult)")
                             userData = parsedResult["user"] as? [String: AnyObject]
                 }
             }
