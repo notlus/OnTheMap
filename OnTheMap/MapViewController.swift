@@ -59,19 +59,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
     }
 
     private func loadStudents() {
-        let stlClient = StudentLocationClient()
-        stlClient.getStudentLocations { (studentLocations) -> Void in
+        appDelegate.studentLocationClient.getStudentLocations { (success) -> Void in
             println("Student location completion handler")
-            if let locations = studentLocations {
-                // Save the location data
-                self.appDelegate.studentLocations = locations
-                
+            if success {
                 self.addAnnotations()
-            } else {
-                println("No student locations")
-                // TODO: Use UIAlertController
-                let alert = UIAlertView(title: "Error", message: "Unable to download student locations", delegate: nil, cancelButtonTitle: "Ok")
-                alert.show()
             }
         }
     }
@@ -79,8 +70,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
     private func addAnnotations() -> Void {
         // Remove existing annotations
         self.mapView.removeAnnotations(self.mapView.annotations)
-        
-        for student in appDelegate.studentLocations {
+
+        for student in appDelegate.studentLocationClient.allStudents {
             addAnnotation(student)
         }
     }
@@ -137,7 +128,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
 
 extension MapViewController {
     func addToMap(studentInformation: StudentInformation) {
-        self.appDelegate.studentLocations.append(studentInformation)
+        self.appDelegate.studentLocationClient.allStudents.append(studentInformation)
         addAnnotation(studentInformation)
     }
 }

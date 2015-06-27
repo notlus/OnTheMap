@@ -52,14 +52,14 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return appDelegate.studentLocations.count
+        return appDelegate.studentLocationClient.allStudents.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("mapCell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-        let studentLocation = appDelegate.studentLocations[indexPath.row]
+        let studentLocation = appDelegate.studentLocationClient.allStudents[indexPath.row]
         cell.textLabel?.text = studentLocation.mapString
         cell.detailTextLabel?.text = studentLocation.mediaURL
 
@@ -67,7 +67,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let studentLocation = appDelegate.studentLocations[indexPath.row]
+        let studentLocation = appDelegate.studentLocationClient.allStudents[indexPath.row]
         if let url = NSURL(string: studentLocation.mediaURL) {
             UIApplication.sharedApplication().openURL(url)
         }

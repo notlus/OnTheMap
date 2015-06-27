@@ -12,12 +12,13 @@ import UIKit
 
 class StudentLocationClient: NSObject {
     var session: NSURLSession
+    var allStudents = [StudentInformation]()
     
     override init() {
         session = NSURLSession.sharedSession()
     }
     
-    func getStudentLocations(completion: ([StudentInformation]?) -> Void) -> Void {
+    func getStudentLocations(completion: (Bool) -> Void) -> Void {
         // Create the request
         // TODO: Escape URL
         let urlString = "\(Constants.BaseURL)?\(RequestKeys.limit)=100"
@@ -31,6 +32,8 @@ class StudentLocationClient: NSObject {
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             var studentInformation: [StudentInformation]?
+            var success = false
+
             if error != nil {
                 println("error in request")
             }
@@ -43,14 +46,15 @@ class StudentLocationClient: NSObject {
                 let studentLocations = parsedResult[Constants.ResultsKey] as! [[String: AnyObject]]
                 
                 // Create the array and append `StudentInformation` instances
-                studentInformation = [StudentInformation]()
                 for entry in studentLocations {
-                    studentInformation!.append(StudentInformation(studentInfo: entry))
+                    self.allStudents.append(StudentInformation(studentInfo: entry))
                 }
+                
+                success = true
             }
             
             // Always call the completion handler
-            completion(studentInformation)
+            completion(success)
         })
         
         task.resume()
