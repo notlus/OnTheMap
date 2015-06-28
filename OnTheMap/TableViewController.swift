@@ -60,8 +60,8 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         // Configure the cell...
         let studentLocation = appDelegate.studentLocationClient.allStudents[indexPath.row]
-        cell.textLabel?.text = studentLocation.mapString
-        cell.detailTextLabel?.text = studentLocation.mediaURL
+        cell.textLabel?.text = "\(studentLocation.firstName) \(studentLocation.lastName)"
+        cell.imageView?.image = UIImage(named: "pin")
 
         return cell
     }
