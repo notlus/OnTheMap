@@ -323,6 +323,9 @@
                                     <constraint firstAttribute="height" constant="187" id="tTO-RL-Cqh"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="f3e-8P-ADF">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.98710867869875218" green="0.6223162407445495" blue="0.13989259821061292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -335,6 +338,7 @@
                             <constraint firstItem="Acl-Vr-x2C" firstAttribute="width" secondItem="CMZ-9d-IJC" secondAttribute="width" id="CeA-EL-0D3"/>
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="leading" secondItem="88L-Fv-lli" secondAttribute="leading" id="F20-La-rIZ"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="centerX" secondItem="24f-HW-VKe" secondAttribute="centerX" id="J7P-0k-pMK"/>
+                            <constraint firstAttribute="centerY" secondItem="f3e-8P-ADF" secondAttribute="centerY" constant="0.5" id="Jzr-7E-iUN"/>
                             <constraint firstItem="TOL-EC-Hg7" firstAttribute="leading" secondItem="CMZ-9d-IJC" secondAttribute="leading" id="WMq-Xw-QEO"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="top" secondItem="eBY-uI-Hkc" secondAttribute="bottom" constant="16" id="bK2-Jp-TR8"/>
                             <constraint firstItem="IB5-vE-jsb" firstAttribute="leading" secondItem="CMZ-9d-IJC" secondAttribute="leading" id="bZy-oH-iCA"/>
@@ -344,6 +348,7 @@
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="trailing" secondItem="88L-Fv-lli" secondAttribute="trailing" id="irl-h2-eGu"/>
                             <constraint firstItem="Acl-Vr-x2C" firstAttribute="height" secondItem="CMZ-9d-IJC" secondAttribute="height" constant="-10" id="kc5-AW-d3W"/>
                             <constraint firstItem="88L-Fv-lli" firstAttribute="top" secondItem="JSq-dP-3fS" secondAttribute="bottom" constant="13" id="kfW-ia-4fU"/>
+                            <constraint firstAttribute="centerX" secondItem="f3e-8P-ADF" secondAttribute="centerX" constant="-0.5" id="kmR-fR-sKW"/>
                             <constraint firstItem="cJ0-KZ-YdS" firstAttribute="top" secondItem="Acl-Vr-x2C" secondAttribute="bottom" constant="20" id="lei-zB-fya"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="centerX" secondItem="0hc-vT-wTR" secondAttribute="centerX" id="nT7-ke-5ZE"/>
                             <constraint firstItem="IB5-vE-jsb" firstAttribute="baseline" secondItem="TOL-EC-Hg7" secondAttribute="baseline" id="taZ-qy-53E"/>
@@ -360,6 +365,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="activityView" destination="f3e-8P-ADF" id="n4x-bX-0zS"/>
                         <outlet property="passwordTextField" destination="88L-Fv-lli" id="S7s-cT-dUf"/>
                         <outlet property="usernameTextField" destination="JSq-dP-3fS" id="i0m-sL-qXa"/>
                         <segue destination="KGt-Pz-lFi" kind="show" identifier="OnTheMapHome" id="J5k-hO-FGI"/>
@@ -438,6 +444,6 @@
         <image name="udacity" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pOM-nK-QYG"/>
+        <segue reference="KC4-hX-raR"/>
     </inferredMetricsTieBreakers>
 </document>

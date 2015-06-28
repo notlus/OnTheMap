@@ -15,6 +15,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: Outlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     var udacityClient: UdacityClient?
 
@@ -52,7 +53,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func login(sender: AnyObject) {
         println("login")
         if !usernameTextField.text.isEmpty && !passwordTextField.text.isEmpty {
+            activityView.startAnimating()
             udacityClient?.loginWithUser(usernameTextField.text, password: passwordTextField.text, completion: { (errorType, userID) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.activityView.stopAnimating()
+                })
+                
                 switch errorType {
                 case UdacityClient.ErrorType.Success:
                     println("Logged in successfully with user ID \(userID!)")
@@ -88,8 +94,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func logout(unwindSegue: UIStoryboardSegue) {
         println("logout")
-        
+        activityView.startAnimating()
         udacityClient!.logout { (success) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.activityView.stopAnimating()
+            })
+            
             if success {
                 // Clear the session ID
                 self.udacityClient?.sessionID = nil
