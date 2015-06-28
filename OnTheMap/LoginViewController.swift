@@ -52,20 +52,31 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func login(sender: AnyObject) {
         println("login")
         if !usernameTextField.text.isEmpty && !passwordTextField.text.isEmpty {
-            udacityClient?.loginWithUser(usernameTextField.text, password: passwordTextField.text, completion: { (success, userID) -> Void in
-                if success {
+            udacityClient?.loginWithUser(usernameTextField.text, password: passwordTextField.text, completion: { (errorType, userID) -> Void in
+                switch errorType {
+                case UdacityClient.ErrorType.Success:
                     println("Logged in successfully with user ID \(userID!)")
                     self.appDelegate.userID = userID
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.performSegueWithIdentifier("OnTheMapHome", sender: self)
                     })
-                }
-                else {
-                    println("Failed to log in")
+                case UdacityClient.ErrorType.Authentication:
+                    println("Authentication error")
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.handleInvalidLogin()
                     })
+                case UdacityClient.ErrorType.Network:
+                    println("Network error")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.handleNetworkError()
+                    })
+                case UdacityClient.ErrorType.InvalidData:
+                    println("Invalid data received")
+                    assertionFailure("Invalid data received logging in")
+                case UdacityClient.ErrorType.Unknown:
+                    println("Unknown error")
+                    assertionFailure("Unknown error logging in")
                 }
             })
         }
@@ -103,10 +114,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         // Create actions
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            println("Ok action taken")
+            println("OK action taken")
         })
         
         alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func handleNetworkError() -> Void {
+        let alert = UIAlertController(title: "Login failed", message: "No network connection", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // Create actions
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (action) -> Void in
+            println("OK action taken")
+        }
+
+        alert.addAction(okAction)
+        
         presentViewController(alert, animated: true, completion: nil)
     }
 

@@ -15,12 +15,20 @@ class UdacityClient: NSObject {
     /// The session ID for accessing the Udacity API
     var sessionID: String? = nil
     
+    enum ErrorType {
+        case Success
+        case Authentication
+        case Network
+        case InvalidData
+        case Unknown
+    }
+    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
     }
     
-    func loginWithUser(username: String, password: String, completion: (Bool, String?) -> Void) -> Void {
+    func loginWithUser(username: String, password: String, completion: (ErrorType, String?) -> Void) -> Void {
         // Create the request
         let request = NSMutableURLRequest(URL: NSURL(string: "\(Constants.BaseURL)/session")!)
         request.HTTPMethod = "POST"
@@ -37,22 +45,25 @@ class UdacityClient: NSObject {
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(requestBody, options: nil, error: nil)
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
+            var errorType = ErrorType.Unknown
             var userID: String? = nil
             
             if let error = error {
                 println("Request failed, error: \(error)")
-                completion(false, userID)
+                if error.code == NSURLErrorNotConnectedToInternet {
+                    errorType = ErrorType.Network
+                } else {
+                    errorType = ErrorType.Unknown
+                }
             }
             else {
-                // Default success to false
-                var success: Bool = false
                 let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
                 var parseError: NSError? = nil
                 if let parsedResult = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parseError) as? [String: AnyObject] {
                     if let session = parsedResult[ResponseKeys.Session] as? [String: AnyObject] {
                         if let sessionID = session[ResponseKeys.SessionID] as? String {
                             self.sessionID = sessionID
-                            success = true
+                            errorType = ErrorType.Success
                             
                             // Get the key (user ID) for the logged in user
                             if let account = parsedResult[ResponseKeys.Account] as? [String: AnyObject],
@@ -62,25 +73,27 @@ class UdacityClient: NSObject {
                             }
                         }
                         else {
-                            success = false
+                            errorType = ErrorType.InvalidData
                         }
                     }
                     else {
                         // Check the status code
                         let status = parsedResult[ResponseKeys.Status] as! Int
-                        success = false
+                        if status == 403 {
+                            errorType = ErrorType.Authentication
+                        }
                         let errorString = parsedResult[ResponseKeys.Error] as! String
                         println("Error: '\(errorString)'")
                     }
                 }
                 else {
                     println("Failed to parse response")
-                    success = false
+                    errorType = ErrorType.InvalidData
                 }
-                
-                // Call the completion handler
-                completion(success, userID)
             }
+            
+            // Call the completion handler
+            completion(errorType, userID)
         })
         
         task.resume()
