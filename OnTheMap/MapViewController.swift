@@ -95,8 +95,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let destination = segue.destinationViewController as! InfoPostingViewController
-        destination.mapDelegate = self
+        if segue.identifier == "ShowPostingView" {
+            let destination = segue.destinationViewController as! InfoPostingViewController
+            destination.mapDelegate = self
+        }
     }
     
     // MARK: MKMapViewDelegate
