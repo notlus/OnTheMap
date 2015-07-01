@@ -17,6 +17,7 @@ class InfoPostingViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var findOrSubmit: UIButton!
     @IBOutlet weak var urlTextField: UITextField!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     var mapDelegate: UpdateStudentMap?
     
@@ -41,19 +42,27 @@ class InfoPostingViewController: UIViewController {
             if !searchField.text.isEmpty, let searchText = searchField.text {
                 // Hide the search field
                 searchField.hidden = true
+                activityView.startAnimating()
                 let searchRequest = MKLocalSearchRequest()
                 searchRequest.naturalLanguageQuery = searchText
                 let localSearch = MKLocalSearch(request: searchRequest)
                 localSearch.startWithCompletionHandler({ (searchResponse, searchError) -> Void in
                     println("Completed search request")
+                    
+                    // Stop activity view
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.activityView.stopAnimating()
+                    })
+                    
                     if let error = searchError {
                         println("Error in search, \(error.description)")
                         self.searchField.hidden = false
                         // Show the alert on the main queue
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            // TODO: Use UIAlertController
-                            let alert = UIAlertView(title: "Search Error", message: error.description, delegate: nil, cancelButtonTitle: "Ok")
-                            alert.show()
+                            let alert = UIAlertController(title: "Search Error", message: "Unable to find location", preferredStyle: UIAlertControllerStyle.Alert)
+                            let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                            alert.addAction(okAction)
+                            self.presentViewController(alert, animated: true, completion: nil)
                         })
                     }
                     else {
@@ -78,9 +87,10 @@ class InfoPostingViewController: UIViewController {
                 })
             }
             else {
-                // TODO: Use UIAlertController
-                let alert = UIAlertView(title: "Error", message: "Invalid search request", delegate: nil, cancelButtonTitle: "Ok")
-                alert.show()
+                let alert = UIAlertController(title: "Search", message: "Please enter an address or location of interest", preferredStyle: UIAlertControllerStyle.Alert)
+                let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(okAction)
+                presentViewController(alert, animated: true, completion: nil)
             }
         } else if postingState == PostingState.PostLocation {
             println("PostingState.PostLocation")
@@ -89,6 +99,8 @@ class InfoPostingViewController: UIViewController {
                 println("url to post: \(urlToPost)")
                 if let url = validateURL(urlToPost) {
                     println("URL \(urlToPost) is valid!")
+                    
+                    activityView.startAnimating()
                     
                     // Get the info about the current user
                     let udacityClient = UdacityClient()
@@ -119,17 +131,23 @@ class InfoPostingViewController: UIViewController {
                                 
                                 self.dismissViewControllerAnimated(true, completion: nil)
                             }
+                        } else {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.activityView.stopAnimating()
+                            })
                         }
                     })
                 } else {
-                    // TODO: Use UIAlertController
-                    let alert = UIAlertView(title: "Error", message: "Invalid URL", delegate: nil, cancelButtonTitle: "Ok")
-                    alert.show()
+                    let alert = UIAlertController(title: "Invalid URL", message: "Please enter a valid URL", preferredStyle: UIAlertControllerStyle.Alert)
+                    let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                    alert.addAction(okAction)
+                    presentViewController(alert, animated: true, completion: nil)
                 }
             } else {
-                // TODO: Use UIAlertController
-                let alert = UIAlertView(title: "Error", message: "Missing URL", delegate: nil, cancelButtonTitle: "Ok")
-                alert.show()
+                let alert = UIAlertController(title: "Missing URL", message: "Please provide a URL", preferredStyle: UIAlertControllerStyle.Alert)
+                let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alert.addAction(okAction)
+                presentViewController(alert, animated: true, completion: nil)
             }
         } else {
             fatalError("Invalid state!")
@@ -144,6 +162,10 @@ class InfoPostingViewController: UIViewController {
         super.viewDidLoad()
 
         postingState = PostingState.FindLocation
+        
+        let font = UIFont(name: "Roboto-Thin", size: 37.0)!
+        let attributes = [ NSFontAttributeName: font ]
+        promptLabel.attributedText = NSAttributedString(string: promptLabel.attributedText.string, attributes: attributes)
     }
 
     override func didReceiveMemoryWarning() {

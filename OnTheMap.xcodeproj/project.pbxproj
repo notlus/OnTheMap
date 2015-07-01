@@ -21,6 +21,7 @@
 		375DDB2E1B138F2000B4CEDD /* StudenLocationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2D1B138F2000B4CEDD /* StudenLocationClient.swift */; };
 		375DDB301B1392B400B4CEDD /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2F1B1392B400B4CEDD /* StudentInformation.swift */; };
 		379B1B431B2EA04C00168068 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379B1B421B2EA04C00168068 /* Utilities.swift */; };
+		37CE8F8F1B43BA2800D70EC3 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37CE8F8E1B43BA2800D70EC3 /* Roboto-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,9 @@
 		375DDB2D1B138F2000B4CEDD /* StudenLocationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudenLocationClient.swift; sourceTree = "<group>"; };
 		375DDB2F1B1392B400B4CEDD /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		379B1B421B2EA04C00168068 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		37CE8F8E1B43BA2800D70EC3 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		37CE8F901B43BB8A00D70EC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		37CE8F911B43BB8A00D70EC3 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,9 @@
 		375C47F91B06D78B00EA04FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				37CE8F901B43BB8A00D70EC3 /* Roboto-Medium.ttf */,
+				37CE8F911B43BB8A00D70EC3 /* Roboto-Regular.ttf */,
+				37CE8F8E1B43BA2800D70EC3 /* Roboto-Thin.ttf */,
 				375C47FA1B06D78B00EA04FE /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -234,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37CE8F8F1B43BA2800D70EC3 /* Roboto-Thin.ttf in Resources */,
 				375C48011B06D78B00EA04FE /* Main.storyboard in Resources */,
 				375C48061B06D78B00EA04FE /* LaunchScreen.xib in Resources */,
 				375C48031B06D78B00EA04FE /* Images.xcassets in Resources */,
