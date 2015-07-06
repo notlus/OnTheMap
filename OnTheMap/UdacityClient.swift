@@ -15,14 +15,6 @@ class UdacityClient: NSObject {
     /// The session ID for accessing the Udacity API
     var sessionID: String? = nil
     
-    enum ErrorType {
-        case Success
-        case Authentication
-        case Network
-        case InvalidData
-        case Unknown
-    }
-    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
@@ -187,4 +179,11 @@ extension UdacityClient {
         static let Error = "error"
     }
 
+    enum ErrorType {
+        case Success
+        case Authentication
+        case Network
+        case InvalidData
+        case Unknown
+    }
 }
