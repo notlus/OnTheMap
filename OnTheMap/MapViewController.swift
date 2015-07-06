@@ -29,7 +29,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
         
         // Create the pin button
         let buttonImage = UIImage(named: "pin")!
-        let postPinButton = UIBarButtonItem(image: buttonImage, landscapeImagePhone: buttonImage, style: UIBarButtonItemStyle.Plain, target: self, action: "postPin")
+        let postPinButton = UIBarButtonItem(image: buttonImage, landscapeImagePhone: buttonImage,
+                                            style: UIBarButtonItemStyle.Plain, target: self,
+                                            action: "postPin")
+        
         var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
         rightButtons.append(postPinButton)
         navigationItem.rightBarButtonItems = rightButtons
