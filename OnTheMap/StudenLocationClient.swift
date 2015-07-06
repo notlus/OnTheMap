@@ -18,7 +18,7 @@ class StudentLocationClient: NSObject {
         session = NSURLSession.sharedSession()
     }
     
-    func getStudentLocations(completion: (Bool) -> Void) -> Void {
+    func getStudentLocations(completion: (ErrorType) -> Void) -> Void {
         // Create the request
         // TODO: Escape URL
         let urlString = "\(Constants.BaseURL)?\(RequestKeys.limit)=100"
@@ -32,10 +32,16 @@ class StudentLocationClient: NSObject {
         
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             var studentInformation: [StudentInformation]?
+            var errorType = ErrorType.Unknown
             var success = false
 
             if error != nil {
-                println("error in request")
+                println("error in request: \(error)")
+                if error.code == NSURLErrorNotConnectedToInternet {
+                    errorType = ErrorType.Network
+                } else {
+                    errorType = ErrorType.DownLoad
+                }
             }
             else {
                 println(NSString(data: data, encoding: NSUTF8StringEncoding))
@@ -50,11 +56,11 @@ class StudentLocationClient: NSObject {
                     self.allStudents.append(StudentInformation(studentInfo: entry))
                 }
                 
-                success = true
+                errorType = ErrorType.Success
             }
             
             // Always call the completion handler
-            completion(success)
+            completion(errorType)
         })
         
         task.resume()
@@ -135,4 +141,10 @@ extension StudentLocationClient {
         static let limit = "limit"
     }
     
+    enum ErrorType {
+        case Success
+        case Network  // No network
+        case DownLoad // Download failure
+        case Unknown
+    }
 }
