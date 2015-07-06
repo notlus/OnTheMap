@@ -20,6 +20,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
 
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,10 +60,42 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
     }
 
     private func loadStudents() {
-        appDelegate.studentLocationClient.getStudentLocations { (success) -> Void in
+        activityView.startAnimating()
+        appDelegate.studentLocationClient.getStudentLocations { (errorType) -> Void in
             println("Student location completion handler")
-            if success {
+            self.activityView.stopAnimating()
+            if errorType == StudentLocationClient.ErrorType.Success {
                 self.addAnnotations()
+            } else {
+                // An error occurred
+                
+                let alertTitle: String
+                let alertMessage: String
+                if errorType == StudentLocationClient.ErrorType.DownLoad {
+                    alertTitle = "Download Error"
+                    alertMessage = "Unable to download stundet data"
+                } else if errorType == StudentLocationClient.ErrorType.Network {
+                    alertTitle = "Network Error"
+                    alertMessage = "No network connection detected"
+                } else {
+                    alertTitle = "Unknown error"
+                    alertMessage = "An unexpected error occurred"
+                }
+                
+                println("Download error")
+                let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+                let retryAction = UIAlertAction(title: "Retry", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                    println("Inside retry alert action handler")
+                    self.loadStudents()
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                    println("Inside cancel alert action handler")
+                })
+                
+                alert.addAction(retryAction)
+                alert.addAction(cancelAction)
+                self.presentViewController(alert, animated: true, completion: nil)
             }
         }
     }

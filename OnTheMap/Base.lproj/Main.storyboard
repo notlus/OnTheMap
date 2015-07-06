@@ -47,11 +47,17 @@
                                     <outlet property="delegate" destination="lZP-U6-JY0" id="Mdf-QB-0v0"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="e2D-t1-jhf">
+                                <rect key="frame" x="281" y="282" width="37" height="37"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerY" secondItem="e2D-t1-jhf" secondAttribute="centerY" id="MmP-tN-soL"/>
                             <constraint firstItem="Xwe-xq-B0N" firstAttribute="leading" secondItem="Pdn-w0-W8r" secondAttribute="leading" id="NBP-vN-b8n"/>
                             <constraint firstItem="Xwe-xq-B0N" firstAttribute="top" secondItem="Pdn-w0-W8r" secondAttribute="top" id="nXB-mG-jZK"/>
+                            <constraint firstAttribute="centerX" secondItem="e2D-t1-jhf" secondAttribute="centerX" id="qmP-Lb-DH5"/>
                             <constraint firstItem="Xwe-xq-B0N" firstAttribute="bottom" secondItem="EcJ-W1-hqP" secondAttribute="top" id="sHx-de-faM"/>
                             <constraint firstAttribute="trailing" secondItem="Xwe-xq-B0N" secondAttribute="trailing" id="uOT-sN-Lba"/>
                         </constraints>
@@ -96,11 +102,17 @@
                                     <outlet property="delegate" destination="uld-gO-k3D" id="aF6-Tn-Mcj"/>
                                 </connections>
                             </mapView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="pcq-b2-A3n">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="pcq-b2-A3n" secondAttribute="centerX" id="3Dx-3j-jmj"/>
                             <constraint firstItem="tKV-wU-kI2" firstAttribute="leading" secondItem="xBo-tO-wgJ" secondAttribute="leading" id="KR5-Ue-DIr"/>
                             <constraint firstAttribute="trailing" secondItem="tKV-wU-kI2" secondAttribute="trailing" id="NlK-tY-kdX"/>
+                            <constraint firstAttribute="centerY" secondItem="pcq-b2-A3n" secondAttribute="centerY" id="OiZ-DA-RdX"/>
                             <constraint firstItem="tKV-wU-kI2" firstAttribute="bottom" secondItem="qv1-PY-V2V" secondAttribute="top" id="awy-0k-Roc"/>
                             <constraint firstItem="tKV-wU-kI2" firstAttribute="top" secondItem="xBo-tO-wgJ" secondAttribute="top" id="sH6-rW-stS"/>
                         </constraints>
@@ -118,6 +130,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityView" destination="pcq-b2-A3n" id="1jI-iG-vPf"/>
                         <outlet property="mapView" destination="tKV-wU-kI2" id="k6p-IC-tOO"/>
                         <segue destination="dua-eP-DIf" kind="presentation" identifier="ShowPostingView" id="KC4-hX-raR"/>
                     </connections>
