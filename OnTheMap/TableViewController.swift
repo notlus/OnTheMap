@@ -11,8 +11,14 @@ import UIKit
 class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
+    // MARK: Outlets
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
     
     @IBAction func refresh(sender: AnyObject) {
+        println("refresh")
+        loadStudents()
     }
     
     override func viewDidLoad() {
@@ -20,16 +26,13 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         // Create the pin button
         let buttonImage = UIImage(named: "pin")!
-        let postPinButton = UIBarButtonItem(image: buttonImage, landscapeImagePhone: buttonImage, style: UIBarButtonItemStyle.Plain, target: self, action: "postPin")
+        let postPinButton = UIBarButtonItem(image: buttonImage, landscapeImagePhone: buttonImage,
+                                            style: UIBarButtonItemStyle.Plain, target: self,
+                                            action: "postPin")
+        
         var rightButtons = navigationItem.rightBarButtonItems! as! [UIBarButtonItem]
         rightButtons.append(postPinButton)
         navigationItem.rightBarButtonItems = rightButtons
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     func postPin() -> Void {
@@ -37,16 +40,9 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         performSegueWithIdentifier("ShowPostingView", sender: self)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Table view data source
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
 
@@ -73,49 +69,45 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+    private func loadStudents() {
+        activityView.startAnimating()
+        appDelegate.studentLocationClient.getStudentLocations { (errorType) -> Void in
+            println("Student location completion handler")
+            self.activityView.stopAnimating()
+            if errorType == StudentLocationClient.ErrorType.Success {
+                // Retrieved student data, update the table view
+                self.tableView.reloadData()
+            } else {
+                // An error occurred
+                
+                let alertTitle: String
+                let alertMessage: String
+                if errorType == StudentLocationClient.ErrorType.DownLoad {
+                    alertTitle = "Download Error"
+                    alertMessage = "Unable to download stundet data"
+                } else if errorType == StudentLocationClient.ErrorType.Network {
+                    alertTitle = "Network Error"
+                    alertMessage = "No network connection detected"
+                } else {
+                    alertTitle = "Unknown error"
+                    alertMessage = "An unexpected error occurred"
+                }
+                
+                println("Download error")
+                let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+                let retryAction = UIAlertAction(title: "Retry", style: UIAlertActionStyle.Default, handler: { (alertAction) -> Void in
+                    println("Inside retry alert action handler")
+                    self.loadStudents()
+                })
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (alertAction) -> Void in
+                    println("Inside cancel alert action handler")
+                })
+                
+                alert.addAction(retryAction)
+                alert.addAction(cancelAction)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

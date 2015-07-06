@@ -54,6 +54,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="e2D-t1-jhf" secondAttribute="centerX" id="4xI-Ib-3xA"/>
+                            <constraint firstAttribute="centerY" secondItem="e2D-t1-jhf" secondAttribute="centerY" id="69d-ln-38p"/>
                             <constraint firstAttribute="centerY" secondItem="e2D-t1-jhf" secondAttribute="centerY" id="MmP-tN-soL"/>
                             <constraint firstItem="Xwe-xq-B0N" firstAttribute="leading" secondItem="Pdn-w0-W8r" secondAttribute="leading" id="NBP-vN-b8n"/>
                             <constraint firstItem="Xwe-xq-B0N" firstAttribute="top" secondItem="Pdn-w0-W8r" secondAttribute="top" id="nXB-mG-jZK"/>
@@ -76,6 +78,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityView" destination="e2D-t1-jhf" id="zPv-p1-Vku"/>
+                        <outlet property="tableView" destination="Xwe-xq-B0N" id="32d-ha-pg7"/>
                         <segue destination="dua-eP-DIf" kind="presentation" identifier="ShowPostingView" id="pOM-nK-QYG"/>
                     </connections>
                 </viewController>
@@ -464,6 +468,6 @@
         <image name="udacity" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KC4-hX-raR"/>
+        <segue reference="pOM-nK-QYG"/>
     </inferredMetricsTieBreakers>
 </document>
