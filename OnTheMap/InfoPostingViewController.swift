@@ -43,54 +43,45 @@ class InfoPostingViewController: UIViewController {
                 // Hide the search field
                 searchField.hidden = true
                 activityView.startAnimating()
-                let searchRequest = MKLocalSearchRequest()
-                searchRequest.naturalLanguageQuery = searchText
-                let localSearch = MKLocalSearch(request: searchRequest)
-                localSearch.startWithCompletionHandler({ (searchResponse, searchError) -> Void in
+                let gc = CLGeocoder()
+                gc.geocodeAddressString(searchText, completionHandler: { (placemarks, geocodeError) -> Void in
+                    // Per the documentation, this is always called on the main queue
+                    
                     println("Completed search request")
                     
                     // Stop activity view
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.activityView.stopAnimating()
-                    })
+                    self.activityView.stopAnimating()
                     
-                    if let error = searchError {
+                    if let error = geocodeError {
                         println("Error in search, \(error.description)")
                         self.searchField.hidden = false
-                        // Show the alert on the main queue
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            let alert = UIAlertController(title: "Search Error", message: "Unable to find location", preferredStyle: UIAlertControllerStyle.Alert)
-                            let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                            alert.addAction(okAction)
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        })
+                        self.showErrorAlert("Search Error", alertMessage: "Unable to find location")
+                    }
+                    else if let mapItem = placemarks.first as? CLPlacemark {
+                        println("Successfully geocoded a location")
+                        let placemark = MKPlacemark(placemark: mapItem)
+                        
+                        self.postLocation = mapItem.location
+                        
+                        self.postingState = PostingState.PostLocation
+                        
+                        // Show the item on a map
+                        self.promptLabel.hidden = true
+                        self.mapView.hidden = false
+                        self.urlTextField.hidden = false
+                        self.mapView.addAnnotation(placemark)
+                        self.mapView.setCenterCoordinate(mapItem.location.coordinate, animated: true)
+                        self.findOrSubmit.setTitle("Submit", forState: UIControlState.Normal)
                     }
                     else {
-                        println("Successful local search")
-                        if let mapItem = searchResponse.mapItems.first as? MKMapItem {
-                            
-                            self.postLocation = mapItem.placemark.location
-                            
-                            self.postingState = PostingState.PostLocation
-                            
-                            // Show the item on a map
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.promptLabel.hidden = true
-                                self.mapView.hidden = false
-                                self.urlTextField.hidden = false
-                                self.mapView.addAnnotation(mapItem.placemark)
-                                self.mapView.setCenterCoordinate(mapItem.placemark.location.coordinate, animated: true)
-                                self.findOrSubmit.setTitle("Submit", forState: UIControlState.Normal)
-                            })
-                        }
+                        // No placemarks
+                        println("No placemarks returned")
+                        self.showErrorAlert("Error", alertMessage: "No placemarks found")
                     }
                 })
             }
             else {
-                let alert = UIAlertController(title: "Search", message: "Please enter an address or location of interest", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                alert.addAction(okAction)
-                presentViewController(alert, animated: true, completion: nil)
+                showErrorAlert("Search", alertMessage: "Please enter an address or location of interest")
             }
         } else if postingState == PostingState.PostLocation {
             println("PostingState.PostLocation")
@@ -120,7 +111,6 @@ class InfoPostingViewController: UIViewController {
                             studentInfo["mapString"] = self.searchField.text
                             
                             // Post a new location to the Parse API
-                            // TODO: Can this be a static method
                             let parseAPI = StudentLocationClient()
                             parseAPI.postStudentLocation(studentInfo) { (success, studentInformation) -> Void in
                                 println("Posting complete, success=\(success)")
@@ -138,16 +128,10 @@ class InfoPostingViewController: UIViewController {
                         }
                     })
                 } else {
-                    let alert = UIAlertController(title: "Invalid URL", message: "Please enter a valid URL", preferredStyle: UIAlertControllerStyle.Alert)
-                    let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                    alert.addAction(okAction)
-                    presentViewController(alert, animated: true, completion: nil)
+                    showErrorAlert("Invalid URL", alertMessage: "Please enter a valid URL")
                 }
             } else {
-                let alert = UIAlertController(title: "Missing URL", message: "Please provide a URL", preferredStyle: UIAlertControllerStyle.Alert)
-                let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
-                alert.addAction(okAction)
-                presentViewController(alert, animated: true, completion: nil)
+                showErrorAlert("Missing URL", alertMessage: "Please provide a URL")
             }
         } else {
             fatalError("Invalid state!")
@@ -167,20 +151,11 @@ class InfoPostingViewController: UIViewController {
         let attributes = [ NSFontAttributeName: font ]
         promptLabel.attributedText = NSAttributedString(string: promptLabel.attributedText.string, attributes: attributes)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func showErrorAlert(alertTitle: String, alertMessage: String) -> Void {
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
