@@ -33,6 +33,33 @@ class InfoPostingViewController: UIViewController {
     private var postingState = PostingState.FindLocation
     private var postLocation: CLLocation?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        postingState = PostingState.FindLocation
+        
+        let font = UIFont(name: "Roboto-Thin", size: 37.0)!
+        let attributes = [ NSFontAttributeName: font ]
+        promptLabel.attributedText = NSAttributedString(string: promptLabel.attributedText.string, attributes: attributes)
+        
+        // Set this class as the delegate for the search text field
+        searchField.delegate = self
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+    
+    @IBAction func handleSingleTap(sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
     @IBAction func findOnMap(sender: AnyObject) {
         println("findOnMap")
         
@@ -142,20 +169,55 @@ class InfoPostingViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        postingState = PostingState.FindLocation
-        
-        let font = UIFont(name: "Roboto-Thin", size: 37.0)!
-        let attributes = [ NSFontAttributeName: font ]
-        promptLabel.attributedText = NSAttributedString(string: promptLabel.attributedText.string, attributes: attributes)
-    }
-    
     private func showErrorAlert(alertTitle: String, alertMessage: String) -> Void {
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
         let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
         alert.addAction(okAction)
         presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func subscribeToKeyboardNotifications() -> Void {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    private func unsubscribeFromKeyboardNotifications() -> Void {
+        NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillShowNotification)
+        NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillHideNotification)
+    }
+    
+    // MARK: Keyboard notification handlers
+    
+    func keyboardWillShow(notification: NSNotification) -> Void {
+        println("keyboardWillShow")
+        if view.frame.origin.y == 0 {
+            // Subtract the height of the keyboard from the y-coordinate of the view
+            view.frame.origin.y -= getKeyboardHeight(notification)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) -> Void {
+        println("keyboardWillHide")
+        if view.frame.origin.y < 0 {
+            // Add the height of the keyboard to the y-coordinate of the view
+            view.frame.origin.y += getKeyboardHeight(notification)
+        }
+    }
+    
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let value = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return value.CGRectValue().size.height
+    }
+}
+
+extension InfoPostingViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(textField: UITextField) {
+        textField.text = ""
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
