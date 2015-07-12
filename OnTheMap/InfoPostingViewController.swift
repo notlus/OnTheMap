@@ -44,6 +44,7 @@ class InfoPostingViewController: UIViewController {
         
         // Set this class as the delegate for the search text field
         searchField.delegate = self
+        urlTextField.delegate = self
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -190,17 +191,34 @@ class InfoPostingViewController: UIViewController {
     
     func keyboardWillShow(notification: NSNotification) -> Void {
         println("keyboardWillShow")
-        if view.frame.origin.y == 0 {
-            // Subtract the height of the keyboard from the y-coordinate of the view
-            view.frame.origin.y -= getKeyboardHeight(notification)
+        
+        if postingState == PostingState.FindLocation {
+            if view.frame.origin.y == 0 {
+                // Subtract the height of the keyboard from the y-coordinate of the view
+                view.frame.origin.y -= getKeyboardHeight(notification)
+            }
+        } else {
+            if findOrSubmit.frame.origin.y == 0 {
+                // Subtract the height of the keyboard from the y-coordinate of the view
+                findOrSubmit.frame.origin.y -= getKeyboardHeight(notification)
+            }
         }
     }
     
     func keyboardWillHide(notification: NSNotification) -> Void {
         println("keyboardWillHide")
-        if view.frame.origin.y < 0 {
-            // Add the height of the keyboard to the y-coordinate of the view
-            view.frame.origin.y += getKeyboardHeight(notification)
+        
+        if postingState == PostingState.FindLocation {
+            if view.frame.origin.y < 0 {
+                // Add the height of the keyboard to the y-coordinate of the view
+                view.frame.origin.y += getKeyboardHeight(notification)
+            }
+        } else {
+            // Only move the button, so the URL text field does not scroll
+            if findOrSubmit.frame.origin.y < 0 {
+                // Add the height of the keyboard to the y-coordinate of the view
+                findOrSubmit.frame.origin.y += getKeyboardHeight(notification)
+            }
         }
     }
     
@@ -218,6 +236,7 @@ extension InfoPostingViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        findOnMap(self)
         return true
     }
 }
