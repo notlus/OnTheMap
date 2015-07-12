@@ -40,11 +40,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         unsubscribeFromKeyboardNotifications()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func handleSingleTap(sender: AnyObject) {
         println("handleSingleTap")
         view.endEditing(true)
@@ -158,10 +153,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func keyboardWillShow(notification: NSNotification) -> Void {
         println("keyboardWillShow")
+        if view.frame.origin.y == 0 {
+            // Subtract the height of the keyboard from the y-coordinate of the view
+            view.frame.origin.y -= getKeyboardHeight(notification)
+        }
     }
-
+    
     func keyboardWillHide(notification: NSNotification) -> Void {
         println("keyboardWillHide")
+        if view.frame.origin.y < 0 {
+            // Add the height of the keyboard to the y-coordinate of the view
+            view.frame.origin.y += getKeyboardHeight(notification)
+        }
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
