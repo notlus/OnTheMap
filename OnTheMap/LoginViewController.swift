@@ -11,13 +11,12 @@ import UIKit
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    private var udacityClient: UdacityClient?
     
     // MARK: Outlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
-    
-    var udacityClient: UdacityClient?
 
     override func viewDidLoad() {
         super.viewDidLoad()
