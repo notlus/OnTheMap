@@ -114,9 +114,9 @@ class InfoPostingViewController: UIViewController {
         } else if postingState == PostingState.PostLocation {
             println("PostingState.PostLocation")
             
-            if !urlTextField.text.isEmpty, let urlToPost = urlTextField.text {
+            if !urlTextField.text.isEmpty, let urlToPost = NSURL(string: urlTextField.text) {
                 println("url to post: \(urlToPost)")
-                if let url = validateURL(urlToPost) {
+                if UIApplication.sharedApplication().canOpenURL(urlToPost) {
                     println("URL \(urlToPost) is valid!")
                     
                     activityView.startAnimating()
@@ -135,7 +135,7 @@ class InfoPostingViewController: UIViewController {
                             studentInfo["lastName"] = userData["last_name"]
                             studentInfo["latitude"] = self.postLocation?.coordinate.latitude ?? 0
                             studentInfo["longitude"] = self.postLocation?.coordinate.longitude ?? 0
-                            studentInfo["mediaURL"] = urlToPost
+                            studentInfo["mediaURL"] = urlToPost.absoluteString
                             studentInfo["mapString"] = self.searchField.text
                             
                             // Post a new location to the Parse API

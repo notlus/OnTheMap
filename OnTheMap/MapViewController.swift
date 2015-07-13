@@ -150,8 +150,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
     
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         println("calloutAccessoryControlTapped")
-        if let urlString = view.annotation.subtitle {
-            if let url = validateURL(urlString) {
+        if let urlString = view.annotation.subtitle,
+            let url = NSURL(string: urlString) {
+            if UIApplication.sharedApplication().canOpenURL(url) {
                 UIApplication.sharedApplication().openURL(url)
             }
             else {
