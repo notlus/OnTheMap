@@ -38,9 +38,19 @@ class InfoPostingViewController: UIViewController {
         
         postingState = PostingState.FindLocation
         
-        let font = UIFont(name: "Roboto-Thin", size: 37.0)!
-        let attributes = [ NSFontAttributeName: font ]
-        promptLabel.attributedText = NSAttributedString(string: promptLabel.attributedText.string, attributes: attributes)
+        // Set the font on the prompt text
+        
+        // Normal
+        let thinFont = UIFont(name: "Roboto-Thin", size: 37.0)!
+        
+        // Bold
+        let mediumFont = UIFont(name: "Roboto-Medium", size: 37.0)!
+        let promptText: NSMutableAttributedString = promptLabel.attributedText as! NSMutableAttributedString
+        promptText.addAttribute(NSFontAttributeName, value: thinFont, range: NSRange(location: 0, length: promptText.length))
+        
+        // Set part of the text to use use the mediume font
+        promptText.addAttribute(NSFontAttributeName, value: mediumFont, range: NSRange(location: 13, length: 9))
+        promptLabel.attributedText = promptText
         
         // Set this class as the delegate for the search text field
         searchField.delegate = self
