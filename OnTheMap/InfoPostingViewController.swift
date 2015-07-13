@@ -123,7 +123,7 @@ class InfoPostingViewController: UIViewController {
                     
                     // Get the info about the current user
                     let udacityClient = UdacityClient()
-                    udacityClient.getUserData(appDelegate.userID!, completion: { (userData) -> Void in
+                    udacityClient.getUserData(appDelegate.userID!, completion: { (userData, error) -> Void in
                         if let userData = userData {
                             println("Got user data: \(userData)")
 
@@ -150,8 +150,14 @@ class InfoPostingViewController: UIViewController {
                                 self.dismissViewControllerAnimated(true, completion: nil)
                             }
                         } else {
+                            if let error = error {
+                                println("Failed to post student info, error=\(error.description)")
+                            }
+                            
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 self.activityView.stopAnimating()
+                                // TODO: Add the ability to retry
+                                self.showErrorAlert("Posting Error", alertMessage: "Unable to post information, please try again")
                             })
                         }
                     })

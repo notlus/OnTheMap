@@ -125,7 +125,7 @@ class UdacityClient: NSObject {
         task.resume()
     }
     
-    func getUserData(userID: String, completion: ([String: AnyObject]?) -> Void) {
+    func getUserData(userID: String, completion: ([String: AnyObject]?, NSError?) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: "\(Constants.BaseURL)/users/\(userID)")!)
         request.HTTPMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -148,7 +148,7 @@ class UdacityClient: NSObject {
                 }
             }
             
-            completion(userData)
+            completion(userData, error)
         })
         
         task.resume()
