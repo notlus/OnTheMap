@@ -20,8 +20,9 @@ class StudentLocationClient: NSObject {
     
     func getStudentLocations(completion: (ErrorType) -> Void) -> Void {
         // Create the request
-        // TODO: Escape URL
-        let urlString = "\(Constants.BaseURL)?\(RequestKeys.limit)=100"
+        let parameters = [RequestKeys.limit: 100]
+        
+        let urlString = "\(Constants.BaseURL)?\(StudentLocationClient.escapedParameters(parameters))"
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         request.HTTPMethod = "GET"
         
@@ -124,6 +125,28 @@ class StudentLocationClient: NSObject {
     func updateStudentLocation(studentLocation: StudentInformation) -> Bool {
         return false
     }
+    
+    /* Helper function: Given a dictionary of parameters, convert to a string for a url */
+    class func escapedParameters(parameters: [String : AnyObject]) -> String {
+        
+        var urlVars = [String]()
+        
+        for (key, value) in parameters {
+            
+            /* Make sure that it is a string value */
+            let stringValue = "\(value)"
+            
+            /* Escape it */
+            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            
+            /* Append it */
+            urlVars += [key + "=" + "\(escapedValue!)"]
+            
+        }
+        
+        return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
+    }
+
 }
 
 extension StudentLocationClient {
