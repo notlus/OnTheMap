@@ -13,7 +13,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
 
     // MARK: Outlets
     @IBOutlet weak var promptLabel: UILabel!
-    @IBOutlet weak var searchField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var findOrSubmit: UIButton!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
@@ -71,7 +70,9 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
         /// Set up the search text view
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.Center
+        paragraphStyle.paragraphSpacingBefore = 27.0
 
+        searchView.textContainerInset = UIEdgeInsetsMake(60, 0, 0, 0)
         let searchTextAttributes = NSMutableAttributedString(string: kSearchViewText)
         let searchRange = NSRange(location: 0, length: searchTextAttributes.length)
         searchTextAttributes.addAttribute(NSFontAttributeName, value: thinFont, range: searchRange)
@@ -81,6 +82,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
         searchView.delegate = self
         
         /// Set up the URL text view
+        urlTextView.textContainerInset = UIEdgeInsetsMake(60, 0, 0, 0)
         let urlTextAttributes = NSMutableAttributedString(string: kURLViewText)
         let urlRange = NSRange(location: 0, length: urlTextAttributes.length)
         urlTextAttributes.addAttribute(NSFontAttributeName, value: thinFont, range: urlRange)
@@ -174,7 +176,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                         studentInfo["latitude"] = self.postLocation?.coordinate.latitude ?? 0
                         studentInfo["longitude"] = self.postLocation?.coordinate.longitude ?? 0
                         studentInfo["mediaURL"] = urlToPost.absoluteString
-                        studentInfo["mapString"] = self.searchField.text
+                        studentInfo["mapString"] = self.searchView.text
                         
                         // Post a new location to the Parse API
                         let parseAPI = StudentLocationClient()
