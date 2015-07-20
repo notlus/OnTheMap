@@ -64,20 +64,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
 
     private func loadStudents() {
         activityView.startAnimating()
-        appDelegate.studentLocationClient.getStudentLocations { (errorType) -> Void in
+        appDelegate.studentInfoClient.getStudentLocations { (errorType) -> Void in
             println("Student location completion handler")
             self.activityView.stopAnimating()
-            if errorType == StudentLocationClient.ErrorType.Success {
+            if errorType == StudentInfoParseClient.ErrorType.Success {
                 self.addAnnotations()
             } else {
                 // An error occurred
                 
                 let alertTitle: String
                 let alertMessage: String
-                if errorType == StudentLocationClient.ErrorType.DownLoad {
+                if errorType == StudentInfoParseClient.ErrorType.DownLoad {
                     alertTitle = "Download Error"
                     alertMessage = "Unable to download stundet data"
-                } else if errorType == StudentLocationClient.ErrorType.Network {
+                } else if errorType == StudentInfoParseClient.ErrorType.Network {
                     alertTitle = "Network Error"
                     alertMessage = "No network connection detected"
                 } else {
@@ -107,7 +107,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
         // Remove existing annotations
         self.mapView.removeAnnotations(self.mapView.annotations)
 
-        for student in appDelegate.studentLocationClient.allStudents {
+        for student in appDelegate.studentInfoClient.allStudents {
             addAnnotation(student)
         }
     }
@@ -167,7 +167,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
 
 extension MapViewController {
     func addToMap(studentInformation: StudentInformation) {
-        self.appDelegate.studentLocationClient.allStudents.append(studentInformation)
+        self.appDelegate.studentInfoClient.allStudents.append(studentInformation)
         addAnnotation(studentInformation)
     }
 }

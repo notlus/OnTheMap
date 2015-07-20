@@ -48,14 +48,14 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return appDelegate.studentLocationClient.allStudents.count
+        return appDelegate.studentInfoClient.allStudents.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("mapCell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-        let studentLocation = appDelegate.studentLocationClient.allStudents[indexPath.row]
+        let studentLocation = appDelegate.studentInfoClient.allStudents[indexPath.row]
         cell.textLabel?.text = "\(studentLocation.firstName) \(studentLocation.lastName)"
         cell.imageView?.image = UIImage(named: "pin")
 
@@ -63,7 +63,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let studentLocation = appDelegate.studentLocationClient.allStudents[indexPath.row]
+        let studentLocation = appDelegate.studentInfoClient.allStudents[indexPath.row]
         if let url = NSURL(string: studentLocation.mediaURL) {
             UIApplication.sharedApplication().openURL(url)
         }
@@ -71,10 +71,10 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     private func loadStudents() {
         activityView.startAnimating()
-        appDelegate.studentLocationClient.getStudentLocations { (errorType) -> Void in
+        appDelegate.studentInfoClient.getStudentLocations { (errorType) -> Void in
             println("Student location completion handler")
             self.activityView.stopAnimating()
-            if errorType == StudentLocationClient.ErrorType.Success {
+            if errorType == StudentInfoParseClient.ErrorType.Success {
                 // Retrieved student data, update the table view
                 self.tableView.reloadData()
             } else {
@@ -82,10 +82,10 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
                 
                 let alertTitle: String
                 let alertMessage: String
-                if errorType == StudentLocationClient.ErrorType.DownLoad {
+                if errorType == StudentInfoParseClient.ErrorType.DownLoad {
                     alertTitle = "Download Error"
                     alertMessage = "Unable to download stundet data"
-                } else if errorType == StudentLocationClient.ErrorType.Network {
+                } else if errorType == StudentInfoParseClient.ErrorType.Network {
                     alertTitle = "Network Error"
                     alertMessage = "No network connection detected"
                 } else {

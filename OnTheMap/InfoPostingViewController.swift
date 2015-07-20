@@ -179,7 +179,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                         studentInfo["mapString"] = self.searchView.text
                         
                         // Post a new location to the Parse API
-                        let parseAPI = StudentLocationClient()
+                        let parseAPI = StudentInfoParseClient()
                         parseAPI.postStudentLocation(studentInfo) { (success, studentInformation) -> Void in
                             println("Posting complete, success=\(success)")
                             if let si = studentInformation {

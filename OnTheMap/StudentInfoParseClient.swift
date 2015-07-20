@@ -1,5 +1,5 @@
 //
-//  StudentLocationClient.swift
+//  StudentInfoParseClient.swift
 //  OnTheMap
 //
 //  Created by Jeffrey Sulton on 5/25/15.
@@ -10,7 +10,7 @@ import UIKit
 
 /// Uses Parse to get/post student data
 
-class StudentLocationClient: NSObject {
+class StudentInfoParseClient: NSObject {
     var session: NSURLSession
     var allStudents = [StudentInformation]()
     
@@ -22,7 +22,7 @@ class StudentLocationClient: NSObject {
         // Create the request
         let parameters = [RequestKeys.limit: 100]
         
-        let urlString = "\(Constants.BaseURL)?\(StudentLocationClient.escapedParameters(parameters))"
+        let urlString = "\(Constants.BaseURL)?\(StudentInfoParseClient.escapedParameters(parameters))"
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         request.HTTPMethod = "GET"
         
@@ -149,7 +149,7 @@ class StudentLocationClient: NSObject {
 
 }
 
-extension StudentLocationClient {
+extension StudentInfoParseClient {
     
     struct Constants {
         static let AppID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"

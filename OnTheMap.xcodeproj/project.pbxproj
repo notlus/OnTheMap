@@ -18,7 +18,7 @@
 		375C481E1B06DC6500EA04FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 375C481D1B06DC6500EA04FE /* MapKit.framework */; };
 		375C48221B06DE9300EA04FE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375C48211B06DE9300EA04FE /* LoginViewController.swift */; };
 		375C48251B098B4D00EA04FE /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375C48241B098B4D00EA04FE /* UdacityClient.swift */; };
-		375DDB2E1B138F2000B4CEDD /* StudenLocationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2D1B138F2000B4CEDD /* StudenLocationClient.swift */; };
+		375DDB2E1B138F2000B4CEDD /* StudentInfoParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2D1B138F2000B4CEDD /* StudentInfoParseClient.swift */; };
 		375DDB301B1392B400B4CEDD /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2F1B1392B400B4CEDD /* StudentInformation.swift */; };
 		37CE8F8F1B43BA2800D70EC3 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37CE8F8E1B43BA2800D70EC3 /* Roboto-Thin.ttf */; };
 /* End PBXBuildFile section */
@@ -49,7 +49,7 @@
 		375C481D1B06DC6500EA04FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		375C48211B06DE9300EA04FE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		375C48241B098B4D00EA04FE /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
-		375DDB2D1B138F2000B4CEDD /* StudenLocationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudenLocationClient.swift; sourceTree = "<group>"; };
+		375DDB2D1B138F2000B4CEDD /* StudentInfoParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInfoParseClient.swift; sourceTree = "<group>"; };
 		375DDB2F1B1392B400B4CEDD /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		37CE8F8E1B43BA2800D70EC3 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		37CE8F901B43BB8A00D70EC3 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				375C48241B098B4D00EA04FE /* UdacityClient.swift */,
-				375DDB2D1B138F2000B4CEDD /* StudenLocationClient.swift */,
+				375DDB2D1B138F2000B4CEDD /* StudentInfoParseClient.swift */,
 				375DDB2F1B1392B400B4CEDD /* StudentInformation.swift */,
 			);
 			name = Model;
@@ -259,7 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				375DDB2E1B138F2000B4CEDD /* StudenLocationClient.swift in Sources */,
+				375DDB2E1B138F2000B4CEDD /* StudentInfoParseClient.swift in Sources */,
 				375C48221B06DE9300EA04FE /* LoginViewController.swift in Sources */,
 				375DDB301B1392B400B4CEDD /* StudentInformation.swift in Sources */,
 				375C48251B098B4D00EA04FE /* UdacityClient.swift in Sources */,
