@@ -119,8 +119,9 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                 
                 println("Completed search request")
                 
-                // Stop activity view
-                self.activityView.stopAnimating()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.activityView.stopAnimating()
+                })
                 
                 if let error = geocodeError {
                     println("Error in search, \(error.description)")
