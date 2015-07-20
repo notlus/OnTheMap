@@ -83,7 +83,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
         /// Set up the URL text view
         let urlTextAttributes = NSMutableAttributedString(string: kURLViewText)
         let urlRange = NSRange(location: 0, length: urlTextAttributes.length)
-        urlTextAttributes.addAttribute(NSFontAttributeName, value: regularFont, range: urlRange)
+        urlTextAttributes.addAttribute(NSFontAttributeName, value: thinFont, range: urlRange)
         urlTextAttributes.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: urlRange)
         urlTextAttributes.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: urlRange)
         urlTextView.attributedText = urlTextAttributes
