@@ -73,7 +73,10 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         activityView.startAnimating()
         appDelegate.studentInfoClient.getStudentLocations { (errorType) -> Void in
             println("Student location completion handler")
-            self.activityView.stopAnimating()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.activityView.stopAnimating()
+            })
+            
             if errorType == StudentInfoParseClient.ErrorType.Success {
                 // Retrieved student data, update the table view
                 self.tableView.reloadData()

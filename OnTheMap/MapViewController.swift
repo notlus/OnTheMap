@@ -8,6 +8,7 @@
 
 import MapKit
 
+/// A protocol that can be used to trigger an update to the map
 protocol UpdateStudentMap {
     
     func addToMap(studentInformation: StudentInformation)
@@ -66,7 +67,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UpdateStudentMap {
         activityView.startAnimating()
         appDelegate.studentInfoClient.getStudentLocations { (errorType) -> Void in
             println("Student location completion handler")
-            self.activityView.stopAnimating()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.activityView.stopAnimating()
+            })
+            
             if errorType == StudentInfoParseClient.ErrorType.Success {
                 self.addAnnotations()
             } else {
