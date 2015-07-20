@@ -47,12 +47,15 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
         
         // Set the font on the prompt text
         
-        // Normal font
+        // Thin font
         let thinFont = UIFont(name: "Roboto-Thin", size: 36.0)!
         
         // Bold font
         let mediumFont = UIFont(name: "Roboto-Medium", size: 36.0)!
-        
+
+        // Regular font
+        let regularFont = UIFont(name: "Roboto-Regular", size: 36.0)!
+
         // Get existing text from the label
         let promptText =  promptLabel.attributedText as! NSMutableAttributedString
         
@@ -73,16 +76,16 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
         let searchRange = NSRange(location: 0, length: searchTextAttributes.length)
         searchTextAttributes.addAttribute(NSFontAttributeName, value: thinFont, range: searchRange)
         searchTextAttributes.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: searchRange)
-        searchTextAttributes.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: searchRange)
+        searchTextAttributes.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: searchRange)
         searchView.attributedText = searchTextAttributes
         searchView.delegate = self
         
         /// Set up the URL text view
         let urlTextAttributes = NSMutableAttributedString(string: kURLViewText)
         let urlRange = NSRange(location: 0, length: urlTextAttributes.length)
-        urlTextAttributes.addAttribute(NSFontAttributeName, value: thinFont, range: urlRange)
+        urlTextAttributes.addAttribute(NSFontAttributeName, value: regularFont, range: urlRange)
         urlTextAttributes.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: urlRange)
-        urlTextAttributes.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: urlRange)
+        urlTextAttributes.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: urlRange)
         urlTextView.attributedText = urlTextAttributes
         urlTextView.delegate = self
     }
