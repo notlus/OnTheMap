@@ -546,17 +546,6 @@
                                     <action selector="login:" destination="ds0-uz-sIU" eventType="touchUpInside" id="sf3-av-bIU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Acl-Vr-x2C">
-                                <rect key="frame" x="172" y="550" width="257" height="40"/>
-                                <color key="backgroundColor" red="0.29411764705882354" green="0.42352941176470588" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="ZXU-PK-BZB"/>
-                                </constraints>
-                                <state key="normal" title="Sign in with Facebook">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Don't have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IB5-vE-jsb">
                                 <rect key="frame" x="172" y="425" width="183" height="21"/>
                                 <constraints>
@@ -590,34 +579,51 @@
                                     <constraint firstAttribute="width" constant="228" id="h4p-n2-gv8"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qQR-Bd-zxF" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="172" y="540" width="257" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="G6f-OV-wDE"/>
+                                    <constraint firstAttribute="width" constant="257" id="scr-Kg-Toc"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.98710867869875218" green="0.6223162407445495" blue="0.13989259821061292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="cJ0-KZ-YdS" firstAttribute="top" secondItem="Acl-Vr-x2C" secondAttribute="bottom" constant="10" id="69a-5c-K0I"/>
+                            <constraint firstItem="qQR-Bd-zxF" firstAttribute="top" secondItem="IB5-vE-jsb" secondAttribute="bottom" constant="94" id="0aE-C8-zUq"/>
+                            <constraint firstItem="cJ0-KZ-YdS" firstAttribute="top" secondItem="qQR-Bd-zxF" secondAttribute="bottom" constant="20" id="6Ap-rp-VMg"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="trailing" secondItem="88L-Fv-lli" secondAttribute="trailing" id="Akq-AG-Yma"/>
                             <constraint firstItem="IB5-vE-jsb" firstAttribute="baseline" secondItem="TOL-EC-Hg7" secondAttribute="baseline" id="B3a-2p-XbK"/>
                             <constraint firstItem="TOL-EC-Hg7" firstAttribute="leading" secondItem="IB5-vE-jsb" secondAttribute="trailing" constant="15" id="Bc4-mR-ZcM"/>
+                            <constraint firstItem="qQR-Bd-zxF" firstAttribute="leading" secondItem="IB5-vE-jsb" secondAttribute="leading" id="Dky-aV-Lhq"/>
                             <constraint firstAttribute="centerX" secondItem="JSq-dP-3fS" secondAttribute="centerX" id="E4j-4d-8Yt"/>
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="leading" secondItem="88L-Fv-lli" secondAttribute="leading" id="F20-La-rIZ"/>
                             <constraint firstItem="IB5-vE-jsb" firstAttribute="top" secondItem="CMZ-9d-IJC" secondAttribute="bottom" constant="14" id="GSg-6A-IWq"/>
                             <constraint firstAttribute="centerY" secondItem="f3e-8P-ADF" secondAttribute="centerY" id="Jzr-7E-iUN"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="top" secondItem="eBY-uI-Hkc" secondAttribute="bottom" constant="24" id="SW7-IM-RuI"/>
-                            <constraint firstItem="Acl-Vr-x2C" firstAttribute="leading" secondItem="CMZ-9d-IJC" secondAttribute="leading" id="WSJ-AN-1Lm"/>
-                            <constraint firstItem="Acl-Vr-x2C" firstAttribute="top" secondItem="TOL-EC-Hg7" secondAttribute="bottom" constant="103" id="Wie-o1-2I8"/>
+                            <constraint firstItem="qQR-Bd-zxF" firstAttribute="top" secondItem="24f-HW-VKe" secondAttribute="top" constant="550" id="TRd-7s-xNg"/>
+                            <constraint firstItem="qQR-Bd-zxF" firstAttribute="trailing" secondItem="TOL-EC-Hg7" secondAttribute="trailing" id="Wsv-8E-Ps6"/>
                             <constraint firstItem="IB5-vE-jsb" firstAttribute="leading" secondItem="CMZ-9d-IJC" secondAttribute="leading" id="bZy-oH-iCA"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="top" secondItem="0hc-vT-wTR" secondAttribute="bottom" constant="6" id="c6J-Ge-FzN"/>
                             <constraint firstItem="JSq-dP-3fS" firstAttribute="leading" secondItem="88L-Fv-lli" secondAttribute="leading" id="cCx-Lz-a8V"/>
-                            <constraint firstItem="Acl-Vr-x2C" firstAttribute="trailing" secondItem="CMZ-9d-IJC" secondAttribute="trailing" id="hH1-Bn-m3V"/>
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="trailing" secondItem="88L-Fv-lli" secondAttribute="trailing" id="irl-h2-eGu"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="trailing" secondItem="JSq-dP-3fS" secondAttribute="trailing" id="iyX-BL-1kv"/>
                             <constraint firstItem="88L-Fv-lli" firstAttribute="top" secondItem="JSq-dP-3fS" secondAttribute="bottom" constant="14" id="kfW-ia-4fU"/>
                             <constraint firstAttribute="centerX" secondItem="f3e-8P-ADF" secondAttribute="centerX" id="kmR-fR-sKW"/>
                             <constraint firstItem="0hc-vT-wTR" firstAttribute="centerX" secondItem="eBY-uI-Hkc" secondAttribute="centerX" id="oDm-7P-fG2"/>
+                            <constraint firstAttribute="centerX" secondItem="qQR-Bd-zxF" secondAttribute="centerX" id="r9R-t0-bwE"/>
                             <constraint firstItem="0hc-vT-wTR" firstAttribute="top" secondItem="Imx-Jp-WKz" secondAttribute="bottom" id="xHy-St-axY"/>
                             <constraint firstItem="eBY-uI-Hkc" firstAttribute="leading" secondItem="JSq-dP-3fS" secondAttribute="leading" id="zNc-GC-zyt"/>
                             <constraint firstItem="CMZ-9d-IJC" firstAttribute="top" secondItem="88L-Fv-lli" secondAttribute="bottom" constant="14" id="zv0-Od-Lmc"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Dky-aV-Lhq"/>
+                                <exclude reference="TRd-7s-xNg"/>
+                                <exclude reference="Wsv-8E-Ps6"/>
+                            </mask>
+                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="2uJ-AA-Bgn" appends="YES" id="Kj5-yU-6bs"/>
                         </connections>
