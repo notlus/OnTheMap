@@ -14,7 +14,7 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
     // MARK: Outlets
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var findOrSubmit: UIButton!
+    @IBOutlet weak var findButton: UIButton!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var searchView: UITextView!
     @IBOutlet weak var questionsView: UIView!
@@ -106,8 +106,10 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
         view.endEditing(true)
     }
     
-    @IBAction func findOnMap(sender: AnyObject) {
+    @IBAction func findOnMap() {
         println("findOnMap")
+        
+        view.endEditing(true)
         
         if !searchView.text.isEmpty && searchView.text != kSearchViewText, let searchText = searchView.text {
             // Hide the search field
@@ -140,7 +142,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                     self.postingView.hidden = false
                     self.mapView.addAnnotation(placemark)
                     self.mapView.setCenterCoordinate(mapItem.location.coordinate, animated: true)
-                    self.findOrSubmit.setTitle("Submit", forState: UIControlState.Normal)
                 }
                 else {
                     // No placemarks
@@ -197,7 +198,6 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                         
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.activityView.stopAnimating()
-                            // TODO: Add the ability to retry
                             self.showErrorAlert("Posting Error", alertMessage: "Unable to post information, please try again")
                         })
                     }
@@ -241,12 +241,12 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                 // Subtract the height of the keyboard from the y-coordinate of the view
                 view.frame.origin.y -= getKeyboardHeight(notification)
             }
-        } else {
-            if findOrSubmit.frame.origin.y == 0 {
+        } //else {
+//            if submitButton.frame.origin.y == 0 {
                 // Subtract the height of the keyboard from the y-coordinate of the view
-                findOrSubmit.frame.origin.y -= getKeyboardHeight(notification)
-            }
-        }
+//                submitButton.frame.origin.y -= getKeyboardHeight(notification)
+//            }
+//        }
     }
     
     func keyboardWillHide(notification: NSNotification) -> Void {
@@ -257,31 +257,19 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                 // Add the height of the keyboard to the y-coordinate of the view
                 view.frame.origin.y += getKeyboardHeight(notification)
             }
-        } else {
+        } //else {
             // Only move the button, so the URL text field does not scroll
-            if findOrSubmit.frame.origin.y < 0 {
-                // Add the height of the keyboard to the y-coordinate of the view
-                findOrSubmit.frame.origin.y += getKeyboardHeight(notification)
-            }
-        }
+//            if findButton.frame.origin.y < 0 {
+//                // Add the height of the keyboard to the y-coordinate of the view
+//                findButton.frame.origin.y += getKeyboardHeight(notification)
+//            }
+//        }
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let userInfo = notification.userInfo
         let value = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         return value.CGRectValue().size.height
-    }
-}
-
-extension InfoPostingViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(textField: UITextField) {
-        textField.text = ""
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        findOnMap(self)
-        return true
     }
 }
 
@@ -294,5 +282,22 @@ extension InfoPostingViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             textView.text = textView.tag == kSearchViewTag ? kSearchViewText : kURLViewText
         }
+    }
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            // Return was tapped
+            textView.resignFirstResponder()
+            
+            if textView.tag == kSearchViewTag {
+                findOnMap()
+            } else {
+                submitURL()
+            }
+            
+            return false
+        }
+        
+        return true
     }
 }

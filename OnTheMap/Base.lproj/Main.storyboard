@@ -215,7 +215,7 @@
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJ1-5R-COS">
                                         <rect key="frame" x="192" y="498" width="216" height="59"/>
@@ -229,7 +229,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="findOnMap:" destination="dua-eP-DIf" eventType="touchUpInside" id="SSy-Ka-bUn"/>
+                                            <action selector="findOnMap" destination="dua-eP-DIf" eventType="touchUpInside" id="MjR-gy-uio"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dke-We-MxF">
@@ -289,7 +289,7 @@
                                             <constraint firstAttribute="height" constant="184" id="xt4-fA-n50"/>
                                         </constraints>
                                         <attributedString key="attributedText"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
                                     </textView>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zuR-iM-Fq5">
                                         <rect key="frame" x="0.0" y="174" width="600" height="486"/>
@@ -451,6 +451,7 @@
                             <constraint firstAttribute="centerX" secondItem="p1a-Le-kpj" secondAttribute="centerX" id="a6O-nN-aeb"/>
                             <constraint firstAttribute="centerY" secondItem="q4Y-EV-4Na" secondAttribute="centerY" constant="0.5" id="aCd-a7-JKX"/>
                             <constraint firstItem="Vb6-fR-CrU" firstAttribute="centerX" secondItem="q4Y-EV-4Na" secondAttribute="centerX" id="bUl-aT-0z0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="p1a-Le-kpj" secondAttribute="trailing" constant="-16" id="fU5-v2-1bz"/>
                             <constraint firstAttribute="centerY" secondItem="Vb6-fR-CrU" secondAttribute="centerY" id="m11-Vn-jS7"/>
                             <constraint firstAttribute="centerX" secondItem="q4Y-EV-4Na" secondAttribute="centerX" constant="-0.5" id="qsD-OO-nvM"/>
                             <constraint firstItem="IBT-2a-g4Q" firstAttribute="top" secondItem="p1a-Le-kpj" secondAttribute="bottom" id="wvR-K4-D9P"/>
@@ -471,7 +472,7 @@
                     </view>
                     <connections>
                         <outlet property="activityView" destination="q4Y-EV-4Na" id="bSg-rC-8kA"/>
-                        <outlet property="findOrSubmit" destination="dJ1-5R-COS" id="o88-zU-Dao"/>
+                        <outlet property="findButton" destination="dJ1-5R-COS" id="l2y-A2-kVX"/>
                         <outlet property="mapView" destination="zuR-iM-Fq5" id="gdn-vr-eMg"/>
                         <outlet property="postingView" destination="p1a-Le-kpj" id="uSo-Ke-wtc"/>
                         <outlet property="promptLabel" destination="kDT-Tg-wlE" id="Qg2-OQ-GKL"/>
