@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
     
     private let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     private var udacityClient: UdacityClient?
@@ -20,9 +20,46 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        udacityClient = UdacityClient()
         
+        udacityClient = UdacityClient()
+
+        let accessToken = FBSDKAccessToken.currentAccessToken()
+        if accessToken != nil {
+            println("Already logged in via Facebook")
+        
+            udacityClient?.loginWithFacebook(accessToken.tokenString, completion: { (errorType, userID) -> Void in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.activityView.stopAnimating()
+                })
+                
+                switch errorType {
+                case UdacityClient.ErrorType.Success:
+                    println("Logged in successfully with user ID \(userID!)")
+                    self.appDelegate.userID = userID
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.performSegueWithIdentifier("OnTheMapHome", sender: self)
+                    })
+                case UdacityClient.ErrorType.Authentication:
+                    println("Authentication error")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.handleInvalidLogin()
+                    })
+                case UdacityClient.ErrorType.Network:
+                    println("Network error")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.handleNetworkError()
+                    })
+                case UdacityClient.ErrorType.InvalidData:
+                    println("Invalid data received")
+                    assertionFailure("Invalid data received logging in")
+                case UdacityClient.ErrorType.Unknown:
+                    println("Unknown error")
+                    assertionFailure("Unknown error logging in")
+                }
+            })
+        }
+
         usernameTextField.delegate = self
         passwordTextField.delegate = self
     }
@@ -53,31 +90,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     self.activityView.stopAnimating()
                 })
                 
-                switch errorType {
-                case UdacityClient.ErrorType.Success:
-                    println("Logged in successfully with user ID \(userID!)")
-                    self.appDelegate.userID = userID
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.performSegueWithIdentifier("OnTheMapHome", sender: self)
-                    })
-                case UdacityClient.ErrorType.Authentication:
-                    println("Authentication error")
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.handleInvalidLogin()
-                    })
-                case UdacityClient.ErrorType.Network:
-                    println("Network error")
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.handleNetworkError()
-                    })
-                case UdacityClient.ErrorType.InvalidData:
-                    println("Invalid data received")
-                    assertionFailure("Invalid data received logging in")
-                case UdacityClient.ErrorType.Unknown:
-                    println("Unknown error")
-                    assertionFailure("Unknown error logging in")
-                }
+                self.handleLogin(errorType, userID: userID)
             })
         }
         else {
@@ -125,7 +138,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    func handleNetworkError() -> Void {
+    private func handleNetworkError() -> Void {
         let alert = UIAlertController(title: "Login failed", message: "No network connection", preferredStyle: UIAlertControllerStyle.Alert)
         
         // Create actions
@@ -148,6 +161,34 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(UIKeyboardWillHideNotification)
     }
 
+    private func handleLogin(errorType: UdacityClient.ErrorType, userID: String?) {
+        switch errorType {
+        case UdacityClient.ErrorType.Success:
+            println("Logged in successfully with user ID \(userID!)")
+            self.appDelegate.userID = userID
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.performSegueWithIdentifier("OnTheMapHome", sender: self)
+            })
+        case UdacityClient.ErrorType.Authentication:
+            println("Authentication error")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.handleInvalidLogin()
+            })
+        case UdacityClient.ErrorType.Network:
+            println("Network error")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.handleNetworkError()
+            })
+        case UdacityClient.ErrorType.InvalidData:
+            println("Invalid data received")
+            assertionFailure("Invalid data received logging in")
+        case UdacityClient.ErrorType.Unknown:
+            println("Unknown error")
+            assertionFailure("Unknown error logging in")
+        }
+    }
+    
     // MARK: Keyboard notification handlers
     
     func keyboardWillShow(notification: NSNotification) -> Void {
@@ -188,5 +229,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    // MARK: - FBSDKLoginButtonDelegate
+    
+    func loginButton(loginButton: FBSDKLoginButton!,
+        didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        println("Facebook login result: \(result)")
+            if !result.isCancelled {
+                udacityClient?.loginWithFacebook(FBSDKAccessToken.currentAccessToken().tokenString,
+                    completion: { (errorType, userID) -> Void in
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.activityView.stopAnimating()
+                        })
+                        
+                        self.handleLogin(errorType, userID: userID)
+                })
+            }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        println("Logged out of Facebook" )
     }
 }

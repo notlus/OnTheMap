@@ -586,6 +586,9 @@
                                     <constraint firstAttribute="height" constant="40" id="G6f-OV-wDE"/>
                                     <constraint firstAttribute="width" constant="257" id="scr-Kg-Toc"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="ds0-uz-sIU" id="j2X-gJ-UZf"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.98710867869875218" green="0.6223162407445495" blue="0.13989259821061292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
