@@ -101,21 +101,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
 
     @IBAction func logout(unwindSegue: UIStoryboardSegue) {
         println("logout")
-        activityView.startAnimating()
-        udacityClient!.logout { (success) -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.activityView.stopAnimating()
-            })
-            
-            if success {
-                // Clear the session ID
-                self.udacityClient?.sessionID = nil
-                
+        
+        if FBSDKAccessToken.currentAccessToken() == nil {
+            activityView.startAnimating()
+            udacityClient!.logout { (success) -> Void in
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.usernameTextField.text = ""
-                    self.passwordTextField.text = ""
+                    self.activityView.stopAnimating()
                 })
+                
+                if success {
+                    // Clear the session ID
+                    self.udacityClient?.sessionID = nil
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.usernameTextField.text = ""
+                        self.passwordTextField.text = ""
+                    })
+                }
             }
+        } else {
+            // Logged in via Facebook
+            FBSDKAccessToken.setCurrentAccessToken(nil)
+            FBSDKProfile.setCurrentProfile(nil)
         }
     }
     
