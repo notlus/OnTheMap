@@ -241,12 +241,10 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                 // Subtract the height of the keyboard from the y-coordinate of the view
                 view.frame.origin.y -= getKeyboardHeight(notification)
             }
-        } //else {
-//            if submitButton.frame.origin.y == 0 {
-                // Subtract the height of the keyboard from the y-coordinate of the view
-//                submitButton.frame.origin.y -= getKeyboardHeight(notification)
-//            }
-//        }
+        } else {
+            // Only move the submit button
+            submitButton.frame.origin.y -= getKeyboardHeight(notification)
+        }
     }
     
     func keyboardWillHide(notification: NSNotification) -> Void {
@@ -257,13 +255,10 @@ class InfoPostingViewController: UIViewController, UITextViewDelegate {
                 // Add the height of the keyboard to the y-coordinate of the view
                 view.frame.origin.y += getKeyboardHeight(notification)
             }
-        } //else {
-            // Only move the button, so the URL text field does not scroll
-//            if findButton.frame.origin.y < 0 {
-//                // Add the height of the keyboard to the y-coordinate of the view
-//                findButton.frame.origin.y += getKeyboardHeight(notification)
-//            }
-//        }
+        } else {
+            // Only move the submit button
+            submitButton.frame.origin.y += getKeyboardHeight(notification)
+        }
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
