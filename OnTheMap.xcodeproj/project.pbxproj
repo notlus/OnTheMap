@@ -20,6 +20,8 @@
 		375C48251B098B4D00EA04FE /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375C48241B098B4D00EA04FE /* UdacityClient.swift */; };
 		375DDB2E1B138F2000B4CEDD /* StudentInfoParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2D1B138F2000B4CEDD /* StudentInfoParseClient.swift */; };
 		375DDB301B1392B400B4CEDD /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375DDB2F1B1392B400B4CEDD /* StudentInformation.swift */; };
+		37CC54B91B60AA9200669AE7 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37CE8F901B43BB8A00D70EC3 /* Roboto-Medium.ttf */; };
+		37CC54BA1B60AA9700669AE7 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37CE8F911B43BB8A00D70EC3 /* Roboto-Regular.ttf */; };
 		37CE8F8F1B43BA2800D70EC3 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37CE8F8E1B43BA2800D70EC3 /* Roboto-Thin.ttf */; };
 		37E5CC601B60119500A1DED5 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5CC5E1B60119500A1DED5 /* FBSDKCoreKit.framework */; };
 		37E5CC611B60119500A1DED5 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5CC5F1B60119500A1DED5 /* FBSDKLoginKit.framework */; };
@@ -256,6 +258,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37CC54BA1B60AA9700669AE7 /* Roboto-Regular.ttf in Resources */,
+				37CC54B91B60AA9200669AE7 /* Roboto-Medium.ttf in Resources */,
 				37CE8F8F1B43BA2800D70EC3 /* Roboto-Thin.ttf in Resources */,
 				375C48011B06D78B00EA04FE /* Main.storyboard in Resources */,
 				375C48061B06D78B00EA04FE /* LaunchScreen.xib in Resources */,
